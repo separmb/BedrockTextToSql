@@ -77,7 +77,7 @@ class ConverseSqlAgentStack(Stack):
         db_instance = rds.DatabaseInstance(
             self, "MyRDSInstance",
             instance_identifier="myrdsdatabase",
-            engine=rds.DatabaseInstanceEngine.mysql(version=rds.MysqlEngineVersion.VER_8_0_39),
+            engine=rds.DatabaseInstanceEngine.MYSQL,
             instance_type=ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO),
             vpc=vpc,
             vpc_subnets=ec2.SubnetSelection(subnets=new_private_subnets),

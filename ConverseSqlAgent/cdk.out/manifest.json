@@ -1,0 +1,260 @@
+{
+  "version": "41.0.0",
+  "artifacts": {
+    "ConverseSqlAgentStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "ConverseSqlAgentStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "ConverseSqlAgentStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://589528729908/us-east-1",
+      "properties": {
+        "templateFile": "ConverseSqlAgentStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-deploy-role-589528729908-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-cfn-exec-role-589528729908-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-589528729908-us-east-1/91e803240f69432b154e3a11f355529b84156b8e4dc317fb5aab28aab0643775.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "ConverseSqlAgentStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-lookup-role-589528729908-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "ConverseSqlAgentStack.assets"
+      ],
+      "metadata": {
+        "/ConverseSqlAgentStack/DefaultVPC/DynamoDBEndpoint/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DefaultVPCDynamoDBEndpoint395433AB"
+          }
+        ],
+        "/ConverseSqlAgentStack/DefaultVPC/SecretsManagerEndpoint/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DefaultVPCSecretsManagerEndpointAA3C9C40"
+          }
+        ],
+        "/ConverseSqlAgentStack/DefaultVPC/BedrockEndpoint/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DefaultVPCBedrockEndpoint820EE8F3"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet0/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet0SubnetA4A9D5B6"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet0/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet0RouteTable838DDC9F"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet0/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet0RouteTableAssociationEEAAB762"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet1Subnet545D8116"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet1RouteTable96A18886"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet1RouteTableAssociationDDC307E1"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet2Subnet58D70B0B"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet2RouteTable73A6DC6B"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet2RouteTableAssociation02BBD897"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet3/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet3SubnetA975ED87"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet3/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet3RouteTable4152B981"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet3/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet3RouteTableAssociationE8246639"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet4/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet4Subnet8324B678"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet4/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet4RouteTableC0B4F604"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet4/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet4RouteTableAssociation6CF5844D"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet5/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet5Subnet8255FDA5"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet5/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet5RouteTable20561108"
+          }
+        ],
+        "/ConverseSqlAgentStack/NewPrivateSubnet5/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "NewPrivateSubnet5RouteTableAssociation8508B910"
+          }
+        ],
+        "/ConverseSqlAgentStack/TEXT2SQLTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "TEXT2SQLTable17335E23"
+            }
+          }
+        ],
+        "/ConverseSqlAgentStack/TEXT2SQLTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TEXT2SQLTable17335E23"
+          }
+        ],
+        "/ConverseSqlAgentStack/DBSecret/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DBSecretD58955BC"
+          }
+        ],
+        "/ConverseSqlAgentStack/DBSecret/Attachment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DBSecretAttachmentC565A14F"
+          }
+        ],
+        "/ConverseSqlAgentStack/DBSubnetGroup/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DBSubnetGroup"
+          }
+        ],
+        "/ConverseSqlAgentStack/SharedSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SharedSecurityGroupA3C42D70"
+          }
+        ],
+        "/ConverseSqlAgentStack/MyRDSInstance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyRDSInstance48FD439C"
+          }
+        ],
+        "/ConverseSqlAgentStack/LambdaRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaRole3A44B857"
+          }
+        ],
+        "/ConverseSqlAgentStack/LambdaRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LambdaRoleDefaultPolicy75625A82"
+          }
+        ],
+        "/ConverseSqlAgentStack/psycopg2_final/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "psycopg2final5AA29775"
+          }
+        ],
+        "/ConverseSqlAgentStack/SQLAgentFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SQLAgentFunctionD8DFD23D"
+          }
+        ],
+        "/ConverseSqlAgentStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/ConverseSqlAgentStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/ConverseSqlAgentStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "ConverseSqlAgentStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  },
+  "minimumCliVersion": "2.1005.0"
+}

@@ -1,0 +1,51 @@
+{
+  "version": "41.0.0",
+  "files": {
+    "70671c765afc022aab04fa889620eb11d492a78271ddc8760ea62323b2bf7982": {
+      "displayName": "psycopg2_final/Code",
+      "source": {
+        "path": "asset.70671c765afc022aab04fa889620eb11d492a78271ddc8760ea62323b2bf7982.zip",
+        "packaging": "file"
+      },
+      "destinations": {
+        "589528729908-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-589528729908-us-east-1",
+          "objectKey": "70671c765afc022aab04fa889620eb11d492a78271ddc8760ea62323b2bf7982.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-file-publishing-role-589528729908-us-east-1"
+        }
+      }
+    },
+    "bc593feb315397c20d4dc754e591a43ef690b5ed5f03211cb698a465e1b870d7": {
+      "displayName": "SQLAgentFunction/Code",
+      "source": {
+        "path": "asset.bc593feb315397c20d4dc754e591a43ef690b5ed5f03211cb698a465e1b870d7",
+        "packaging": "zip"
+      },
+      "destinations": {
+        "589528729908-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-589528729908-us-east-1",
+          "objectKey": "bc593feb315397c20d4dc754e591a43ef690b5ed5f03211cb698a465e1b870d7.zip",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-file-publishing-role-589528729908-us-east-1"
+        }
+      }
+    },
+    "91e803240f69432b154e3a11f355529b84156b8e4dc317fb5aab28aab0643775": {
+      "displayName": "ConverseSqlAgentStack Template",
+      "source": {
+        "path": "ConverseSqlAgentStack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "589528729908-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-589528729908-us-east-1",
+          "objectKey": "91e803240f69432b154e3a11f355529b84156b8e4dc317fb5aab28aab0643775.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-file-publishing-role-589528729908-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
