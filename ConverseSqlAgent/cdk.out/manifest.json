@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-deploy-role-589528729908-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-cfn-exec-role-589528729908-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-589528729908-us-east-1/91e803240f69432b154e3a11f355529b84156b8e4dc317fb5aab28aab0643775.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-589528729908-us-east-1/46bf75df63cb5826110cdf3d2eb0e111a6a1ec7404fb287bdf3b1e11bc9e972a.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -50,6 +50,36 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "DefaultVPCBedrockEndpoint820EE8F3"
+          }
+        ],
+        "/ConverseSqlAgentStack/BastionHostSG/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BastionHostSG7EC1B225"
+          }
+        ],
+        "/ConverseSqlAgentStack/MyInstance/InstanceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyInstanceInstanceRole1C4D4747"
+          }
+        ],
+        "/ConverseSqlAgentStack/MyInstance/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyInstanceInstanceProfile2784C631"
+          }
+        ],
+        "/ConverseSqlAgentStack/MyInstance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyInstanceA12EC128"
+          }
+        ],
+        "/ConverseSqlAgentStack/SsmParameterValue:--aws--service--ami-amazon-linux-latest--amzn2-ami-kernel-5.10-hvm-x86_64-gp2:C96584B6-F00A-464E-AD19-53AFF4B05118.Parameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
           }
         ],
         "/ConverseSqlAgentStack/NewPrivateSubnet0/Subnet": [
@@ -196,6 +226,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "SharedSecurityGroupA3C42D70"
+          }
+        ],
+        "/ConverseSqlAgentStack/SharedSecurityGroup/from ConverseSqlAgentStackBastionHostSG32FA16E1:3306": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SharedSecurityGroupfromConverseSqlAgentStackBastionHostSG32FA16E133066C2520C8"
           }
         ],
         "/ConverseSqlAgentStack/MyRDSInstance/Resource": [

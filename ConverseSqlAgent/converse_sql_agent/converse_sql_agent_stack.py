@@ -21,7 +21,43 @@ class ConverseSqlAgentStack(Stack):
 
         # Use the default VPC
         vpc = ec2.Vpc.from_lookup(self, "DefaultVPC", is_default=True)
+
+        # set up bastion host
+        # Security group allowing SSH and HTTP
+        bastion_host_sg = ec2.SecurityGroup(
+            self, "BastionHostSG",
+            vpc=vpc,
+            description="Allow SSH and HTTP",
+            allow_all_outbound=True
+        )
     
+        bastion_host_sg.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(22), "Allow SSH")
+        bastion_host_sg.add_ingress_rule(ec2.Peer.any_ipv4(), ec2.Port.tcp(80), "Allow HTTP")
+
+        # Amazon Linux 2 AMI
+        ami = ec2.MachineImage.latest_amazon_linux2()
+
+        # create user data for EC2
+        user_data = ec2.UserData.for_linux()
+        user_data.add_commands(
+            "yum update -y",
+            "sudo yum -y install mysql"
+        )
+
+
+        # Create EC2 instance in the public subnet
+        instance = ec2.Instance(
+            self, "MyInstance",
+            instance_type=ec2.InstanceType("t3.micro"),
+            machine_image=ami,
+            vpc=vpc,
+            vpc_subnets=ec2.SubnetSelection(subnet_type=ec2.SubnetType.PUBLIC),
+            security_group=bastion_host_sg,
+            key_name="separ-key-pair",  # Replace with your EC2 key pair name
+            associate_public_ip_address=True,
+            user_data=user_data
+        )
+
         # Create new private subnets in the default VPC
         new_private_subnets = []
         for i, az in enumerate(vpc.availability_zones):
@@ -72,6 +108,12 @@ class ConverseSqlAgentStack(Stack):
             peer=ec2.Peer.ipv4(vpc.vpc_cidr_block),
             connection=ec2.Port.all_traffic(),
             description="Allow all inbound traffic from VPC CIDR"
+        )
+         
+        security_group.add_ingress_rule(
+            peer=bastion_host_sg,
+            connection=ec2.Port.tcp(3306),
+            description="Allow all inbound traffic on port 3306 from bastion"
         )
         
         db_instance = rds.DatabaseInstance(
@@ -130,7 +172,7 @@ class ConverseSqlAgentStack(Stack):
         lambda_role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaVPCAccessExecutionRole"))
         lambda_role.add_to_policy(iam.PolicyStatement(
             actions=["bedrock:InvokeModel"],
-            resources=[f"arn:aws:bedrock:{self.region}::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"]
+            resources=[f"arn:aws:bedrock:{self.region}::foundation-model/us.anthropic.claude-3-5-sonnet-20240620-v1:0"]
         ))
 
         # Create Lambda layers
@@ -158,7 +200,7 @@ class ConverseSqlAgentStack(Stack):
             timeout=Duration.minutes(15),
             environment={
                 "DynamoDbMemoryTable": dynamodb_table.table_name,
-                "BedrockModelId": "anthropic.claude-3-sonnet-20240229-v1:0"
+                "BedrockModelId": "us.anthropic.claude-3-5-sonnet-20240620-v1:0"
             }
         )
 
