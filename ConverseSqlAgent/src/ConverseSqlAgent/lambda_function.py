@@ -6,7 +6,7 @@ from tool_groups.sql import SQL_TOOL_GROUP
 from tool_groups.memory import MEMORY_TOOL_GROUP
 
 memory_table_name = os.environ.get('DynamoDbMemoryTable', 'advtext2sql_memory_tb')
-model_id = os.environ.get('BedrockModelId', 'anthropic.claude-3-sonnet-20240229-v1:0')
+model_id = os.environ.get('BedrockModelId', 'us.anthropic.claude-sonnet-4-20250514-v1:0')
 
 def lambda_handler(event, context):
     print(event)

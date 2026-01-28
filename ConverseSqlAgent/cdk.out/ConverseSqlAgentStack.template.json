@@ -1,6 +1,654 @@
 {
  "Resources": {
-  "DefaultVPCDynamoDBEndpoint395433AB": {
+  "ConverseSqlVPC2628D40D": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/Resource"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet1Subnet8FFF22AF": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.0.0/19",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet1/Subnet"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet1RouteTable6FCC11C6": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet1/RouteTable"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet1RouteTableAssociationFDB12E51": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPublicSubnet1RouteTable6FCC11C6"
+    },
+    "SubnetId": {
+     "Ref": "ConverseSqlVPCPublicSubnet1Subnet8FFF22AF"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet1DefaultRoute2B35DC83": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "ConverseSqlVPCIGW468346F4"
+    },
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPublicSubnet1RouteTable6FCC11C6"
+    }
+   },
+   "DependsOn": [
+    "ConverseSqlVPCVPCGW396288FB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet1EIPEC106F5C": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet1/EIP"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet1NATGateway50582B6E": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "ConverseSqlVPCPublicSubnet1EIPEC106F5C",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "ConverseSqlVPCPublicSubnet1Subnet8FFF22AF"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "ConverseSqlVPCPublicSubnet1DefaultRoute2B35DC83",
+    "ConverseSqlVPCPublicSubnet1RouteTableAssociationFDB12E51"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet1/NATGateway"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet2SubnetDDE765B1": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.32.0/19",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet2/Subnet"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet2RouteTableB6F27DEF": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet2/RouteTable"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet2RouteTableAssociation521EF0AE": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPublicSubnet2RouteTableB6F27DEF"
+    },
+    "SubnetId": {
+     "Ref": "ConverseSqlVPCPublicSubnet2SubnetDDE765B1"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet2DefaultRouteD6075F35": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "ConverseSqlVPCIGW468346F4"
+    },
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPublicSubnet2RouteTableB6F27DEF"
+    }
+   },
+   "DependsOn": [
+    "ConverseSqlVPCVPCGW396288FB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet2EIP465AD9FD": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet2/EIP"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet2NATGatewayBE676FC1": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "ConverseSqlVPCPublicSubnet2EIP465AD9FD",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "ConverseSqlVPCPublicSubnet2SubnetDDE765B1"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet2"
+     }
+    ]
+   },
+   "DependsOn": [
+    "ConverseSqlVPCPublicSubnet2DefaultRouteD6075F35",
+    "ConverseSqlVPCPublicSubnet2RouteTableAssociation521EF0AE"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet2/NATGateway"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet3SubnetD261F31B": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1c",
+    "CidrBlock": "10.0.64.0/19",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet3"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet3/Subnet"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet3RouteTable95C36A53": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet3"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet3/RouteTable"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet3RouteTableAssociation2A75B0B5": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPublicSubnet3RouteTable95C36A53"
+    },
+    "SubnetId": {
+     "Ref": "ConverseSqlVPCPublicSubnet3SubnetD261F31B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet3/RouteTableAssociation"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet3DefaultRoute081CC652": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "ConverseSqlVPCIGW468346F4"
+    },
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPublicSubnet3RouteTable95C36A53"
+    }
+   },
+   "DependsOn": [
+    "ConverseSqlVPCVPCGW396288FB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet3/DefaultRoute"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet3EIP2D15D537": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet3/EIP"
+   }
+  },
+  "ConverseSqlVPCPublicSubnet3NATGateway71CD47BF": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "ConverseSqlVPCPublicSubnet3EIP2D15D537",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "ConverseSqlVPCPublicSubnet3SubnetD261F31B"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet3"
+     }
+    ]
+   },
+   "DependsOn": [
+    "ConverseSqlVPCPublicSubnet3DefaultRoute081CC652",
+    "ConverseSqlVPCPublicSubnet3RouteTableAssociation2A75B0B5"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PublicSubnet3/NATGateway"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet1SubnetB1057BEC": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.96.0/19",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet1/Subnet"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet1RouteTable052B3D13": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet1/RouteTable"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet1RouteTableAssociation5B596F5F": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPrivateSubnet1RouteTable052B3D13"
+    },
+    "SubnetId": {
+     "Ref": "ConverseSqlVPCPrivateSubnet1SubnetB1057BEC"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet1DefaultRouteB6200A04": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "ConverseSqlVPCPublicSubnet1NATGateway50582B6E"
+    },
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPrivateSubnet1RouteTable052B3D13"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet2SubnetF09F9BFA": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.128.0/19",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet2/Subnet"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet2RouteTableCC720052": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet2/RouteTable"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet2RouteTableAssociationA158F4F3": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPrivateSubnet2RouteTableCC720052"
+    },
+    "SubnetId": {
+     "Ref": "ConverseSqlVPCPrivateSubnet2SubnetF09F9BFA"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet2DefaultRoute8CA88613": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "ConverseSqlVPCPublicSubnet2NATGatewayBE676FC1"
+    },
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPrivateSubnet2RouteTableCC720052"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet3SubnetE3AA12C7": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1c",
+    "CidrBlock": "10.0.160.0/19",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet3"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet3/Subnet"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet3RouteTableD4154AF4": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet3"
+     }
+    ],
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet3/RouteTable"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet3RouteTableAssociationFC33B767": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPrivateSubnet3RouteTableD4154AF4"
+    },
+    "SubnetId": {
+     "Ref": "ConverseSqlVPCPrivateSubnet3SubnetE3AA12C7"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet3/RouteTableAssociation"
+   }
+  },
+  "ConverseSqlVPCPrivateSubnet3DefaultRoute0791F2BB": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "ConverseSqlVPCPublicSubnet3NATGateway71CD47BF"
+    },
+    "RouteTableId": {
+     "Ref": "ConverseSqlVPCPrivateSubnet3RouteTableD4154AF4"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/PrivateSubnet3/DefaultRoute"
+   }
+  },
+  "ConverseSqlVPCIGW468346F4": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/IGW"
+   }
+  },
+  "ConverseSqlVPCVPCGW396288FB": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "ConverseSqlVPCIGW468346F4"
+    },
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/VPCGW"
+   }
+  },
+  "ConverseSqlVPCRestrictDefaultSecurityGroupCustomResourceF43E086B": {
+   "Type": "Custom::VpcRestrictDefaultSG",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
+      "Arn"
+     ]
+    },
+    "DefaultSecurityGroupId": {
+     "Fn::GetAtt": [
+      "ConverseSqlVPC2628D40D",
+      "DefaultSecurityGroup"
+     ]
+    },
+    "Account": "589528729908"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/RestrictDefaultSecurityGroupCustomResource/Default"
+   }
+  },
+  "ConverseSqlVPCDynamoDBEndpointD55908F3": {
    "Type": "AWS::EC2::VPCEndpoint",
    "Properties": {
     "RouteTableIds": [
@@ -12,15 +660,6 @@
      },
      {
       "Ref": "NewPrivateSubnet2RouteTable73A6DC6B"
-     },
-     {
-      "Ref": "NewPrivateSubnet3RouteTable4152B981"
-     },
-     {
-      "Ref": "NewPrivateSubnet4RouteTableC0B4F604"
-     },
-     {
-      "Ref": "NewPrivateSubnet5RouteTable20561108"
      }
     ],
     "ServiceName": {
@@ -35,14 +674,22 @@
       ]
      ]
     },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC"
+     }
+    ],
     "VpcEndpointType": "Gateway",
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/DefaultVPC/DynamoDBEndpoint/Resource"
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/DynamoDBEndpoint/Resource"
    }
   },
-  "DefaultVPCSecretsManagerEndpointAA3C9C40": {
+  "ConverseSqlVPCSecretsManagerEndpointB19AD548": {
    "Type": "AWS::EC2::VPCEndpoint",
    "Properties": {
     "PrivateDnsEnabled": true,
@@ -64,25 +711,24 @@
      },
      {
       "Ref": "NewPrivateSubnet2Subnet58D70B0B"
-     },
+     }
+    ],
+    "Tags": [
      {
-      "Ref": "NewPrivateSubnet3SubnetA975ED87"
-     },
-     {
-      "Ref": "NewPrivateSubnet4Subnet8324B678"
-     },
-     {
-      "Ref": "NewPrivateSubnet5Subnet8255FDA5"
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC"
      }
     ],
     "VpcEndpointType": "Interface",
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/DefaultVPC/SecretsManagerEndpoint/Resource"
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/SecretsManagerEndpoint/Resource"
    }
   },
-  "DefaultVPCBedrockEndpoint820EE8F3": {
+  "ConverseSqlVPCBedrockEndpoint075132C1": {
    "Type": "AWS::EC2::VPCEndpoint",
    "Properties": {
     "PrivateDnsEnabled": true,
@@ -104,22 +750,109 @@
      },
      {
       "Ref": "NewPrivateSubnet2Subnet58D70B0B"
-     },
+     }
+    ],
+    "Tags": [
      {
-      "Ref": "NewPrivateSubnet3SubnetA975ED87"
-     },
-     {
-      "Ref": "NewPrivateSubnet4Subnet8324B678"
-     },
-     {
-      "Ref": "NewPrivateSubnet5Subnet8255FDA5"
+      "Key": "Name",
+      "Value": "ConverseSqlAgentStack/ConverseSqlVPC"
      }
     ],
     "VpcEndpointType": "Interface",
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/DefaultVPC/BedrockEndpoint/Resource"
+    "aws:cdk:path": "ConverseSqlAgentStack/ConverseSqlVPC/BedrockEndpoint/Resource"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Effect": "Allow",
+         "Action": [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupEgress"
+         ],
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:aws:ec2:us-east-1:589528729908:security-group/",
+             {
+              "Fn::GetAtt": [
+               "ConverseSqlVPC2628D40D",
+               "DefaultSecurityGroup"
+              ]
+             }
+            ]
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
+     "S3Key": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "__entrypoint__.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
+   },
+   "DependsOn": [
+    "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseSqlAgentStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
+    "aws:asset:property": "Code"
    }
   },
   "BastionHostSG7EC1B225": {
@@ -149,7 +882,9 @@
       "ToPort": 80
      }
     ],
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/BastionHostSG/Resource"
@@ -218,7 +953,9 @@
         ]
        }
       ],
-      "SubnetId": "subnet-0b49f4019da4f6404"
+      "SubnetId": {
+       "Ref": "ConverseSqlVPCPublicSubnet1Subnet8FFF22AF"
+      }
      }
     ],
     "Tags": [
@@ -232,6 +969,12 @@
     }
    },
    "DependsOn": [
+    "ConverseSqlVPCPublicSubnet1DefaultRoute2B35DC83",
+    "ConverseSqlVPCPublicSubnet1RouteTableAssociationFDB12E51",
+    "ConverseSqlVPCPublicSubnet2DefaultRouteD6075F35",
+    "ConverseSqlVPCPublicSubnet2RouteTableAssociation521EF0AE",
+    "ConverseSqlVPCPublicSubnet3DefaultRoute081CC652",
+    "ConverseSqlVPCPublicSubnet3RouteTableAssociation2A75B0B5",
     "MyInstanceInstanceRole1C4D4747"
    ],
    "Metadata": {
@@ -249,7 +992,9 @@
       "Value": "ConverseSqlAgentStack/NewPrivateSubnet0"
      }
     ],
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet0/Subnet"
@@ -264,7 +1009,9 @@
       "Value": "ConverseSqlAgentStack/NewPrivateSubnet0"
      }
     ],
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet0/RouteTable"
@@ -295,7 +1042,9 @@
       "Value": "ConverseSqlAgentStack/NewPrivateSubnet1"
      }
     ],
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet1/Subnet"
@@ -310,7 +1059,9 @@
       "Value": "ConverseSqlAgentStack/NewPrivateSubnet1"
      }
     ],
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet1/RouteTable"
@@ -341,7 +1092,9 @@
       "Value": "ConverseSqlAgentStack/NewPrivateSubnet2"
      }
     ],
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet2/Subnet"
@@ -356,7 +1109,9 @@
       "Value": "ConverseSqlAgentStack/NewPrivateSubnet2"
      }
     ],
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet2/RouteTable"
@@ -374,144 +1129,6 @@
    },
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet2/RouteTableAssociation"
-   }
-  },
-  "NewPrivateSubnet3SubnetA975ED87": {
-   "Type": "AWS::EC2::Subnet",
-   "Properties": {
-    "AvailabilityZone": "us-east-1d",
-    "CidrBlock": "172.31.144.0/20",
-    "Tags": [
-     {
-      "Key": "Name",
-      "Value": "ConverseSqlAgentStack/NewPrivateSubnet3"
-     }
-    ],
-    "VpcId": "vpc-0478b09b88b05919e"
-   },
-   "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet3/Subnet"
-   }
-  },
-  "NewPrivateSubnet3RouteTable4152B981": {
-   "Type": "AWS::EC2::RouteTable",
-   "Properties": {
-    "Tags": [
-     {
-      "Key": "Name",
-      "Value": "ConverseSqlAgentStack/NewPrivateSubnet3"
-     }
-    ],
-    "VpcId": "vpc-0478b09b88b05919e"
-   },
-   "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet3/RouteTable"
-   }
-  },
-  "NewPrivateSubnet3RouteTableAssociationE8246639": {
-   "Type": "AWS::EC2::SubnetRouteTableAssociation",
-   "Properties": {
-    "RouteTableId": {
-     "Ref": "NewPrivateSubnet3RouteTable4152B981"
-    },
-    "SubnetId": {
-     "Ref": "NewPrivateSubnet3SubnetA975ED87"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet3/RouteTableAssociation"
-   }
-  },
-  "NewPrivateSubnet4Subnet8324B678": {
-   "Type": "AWS::EC2::Subnet",
-   "Properties": {
-    "AvailabilityZone": "us-east-1e",
-    "CidrBlock": "172.31.160.0/20",
-    "Tags": [
-     {
-      "Key": "Name",
-      "Value": "ConverseSqlAgentStack/NewPrivateSubnet4"
-     }
-    ],
-    "VpcId": "vpc-0478b09b88b05919e"
-   },
-   "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet4/Subnet"
-   }
-  },
-  "NewPrivateSubnet4RouteTableC0B4F604": {
-   "Type": "AWS::EC2::RouteTable",
-   "Properties": {
-    "Tags": [
-     {
-      "Key": "Name",
-      "Value": "ConverseSqlAgentStack/NewPrivateSubnet4"
-     }
-    ],
-    "VpcId": "vpc-0478b09b88b05919e"
-   },
-   "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet4/RouteTable"
-   }
-  },
-  "NewPrivateSubnet4RouteTableAssociation6CF5844D": {
-   "Type": "AWS::EC2::SubnetRouteTableAssociation",
-   "Properties": {
-    "RouteTableId": {
-     "Ref": "NewPrivateSubnet4RouteTableC0B4F604"
-    },
-    "SubnetId": {
-     "Ref": "NewPrivateSubnet4Subnet8324B678"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet4/RouteTableAssociation"
-   }
-  },
-  "NewPrivateSubnet5Subnet8255FDA5": {
-   "Type": "AWS::EC2::Subnet",
-   "Properties": {
-    "AvailabilityZone": "us-east-1f",
-    "CidrBlock": "172.31.176.0/20",
-    "Tags": [
-     {
-      "Key": "Name",
-      "Value": "ConverseSqlAgentStack/NewPrivateSubnet5"
-     }
-    ],
-    "VpcId": "vpc-0478b09b88b05919e"
-   },
-   "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet5/Subnet"
-   }
-  },
-  "NewPrivateSubnet5RouteTable20561108": {
-   "Type": "AWS::EC2::RouteTable",
-   "Properties": {
-    "Tags": [
-     {
-      "Key": "Name",
-      "Value": "ConverseSqlAgentStack/NewPrivateSubnet5"
-     }
-    ],
-    "VpcId": "vpc-0478b09b88b05919e"
-   },
-   "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet5/RouteTable"
-   }
-  },
-  "NewPrivateSubnet5RouteTableAssociation8508B910": {
-   "Type": "AWS::EC2::SubnetRouteTableAssociation",
-   "Properties": {
-    "RouteTableId": {
-     "Ref": "NewPrivateSubnet5RouteTable20561108"
-    },
-    "SubnetId": {
-     "Ref": "NewPrivateSubnet5Subnet8255FDA5"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "ConverseSqlAgentStack/NewPrivateSubnet5/RouteTableAssociation"
    }
   },
   "TEXT2SQLTable17335E23": {
@@ -582,15 +1199,6 @@
      },
      {
       "Ref": "NewPrivateSubnet2Subnet58D70B0B"
-     },
-     {
-      "Ref": "NewPrivateSubnet3SubnetA975ED87"
-     },
-     {
-      "Ref": "NewPrivateSubnet4Subnet8324B678"
-     },
-     {
-      "Ref": "NewPrivateSubnet5Subnet8255FDA5"
      }
     ]
    },
@@ -611,19 +1219,45 @@
     ],
     "SecurityGroupIngress": [
      {
-      "CidrIp": "172.31.0.0/16",
+      "CidrIp": {
+       "Fn::GetAtt": [
+        "ConverseSqlVPC2628D40D",
+        "CidrBlock"
+       ]
+      },
       "Description": "Allow all inbound traffic from VPC CIDR",
       "IpProtocol": "-1"
      },
      {
-      "CidrIp": "172.31.0.0/16",
-      "Description": "from 172.31.0.0/16:443",
+      "CidrIp": {
+       "Fn::GetAtt": [
+        "ConverseSqlVPC2628D40D",
+        "CidrBlock"
+       ]
+      },
+      "Description": {
+       "Fn::Join": [
+        "",
+        [
+         "from ",
+         {
+          "Fn::GetAtt": [
+           "ConverseSqlVPC2628D40D",
+           "CidrBlock"
+          ]
+         },
+         ":443"
+        ]
+       ]
+      },
       "FromPort": 443,
       "IpProtocol": "tcp",
       "ToPort": 443
      }
     ],
-    "VpcId": "vpc-0478b09b88b05919e"
+    "VpcId": {
+     "Ref": "ConverseSqlVPC2628D40D"
+    }
    },
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/SharedSecurityGroup/Resource"
@@ -703,8 +1337,8 @@
      }
     ]
    },
-   "UpdateReplacePolicy": "Retain",
-   "DeletionPolicy": "Retain",
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/MyRDSInstance/Resource"
    }
@@ -876,15 +1510,6 @@
       },
       {
        "Ref": "NewPrivateSubnet2Subnet58D70B0B"
-      },
-      {
-       "Ref": "NewPrivateSubnet3SubnetA975ED87"
-      },
-      {
-       "Ref": "NewPrivateSubnet4Subnet8324B678"
-      },
-      {
-       "Ref": "NewPrivateSubnet5Subnet8255FDA5"
       }
      ]
     }
@@ -894,10 +1519,7 @@
     "LambdaRole3A44B857",
     "NewPrivateSubnet0RouteTableAssociationEEAAB762",
     "NewPrivateSubnet1RouteTableAssociationDDC307E1",
-    "NewPrivateSubnet2RouteTableAssociation02BBD897",
-    "NewPrivateSubnet3RouteTableAssociationE8246639",
-    "NewPrivateSubnet4RouteTableAssociation6CF5844D",
-    "NewPrivateSubnet5RouteTableAssociation8508B910"
+    "NewPrivateSubnet2RouteTableAssociation02BBD897"
    ],
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/SQLAgentFunction/Resource",
@@ -909,7 +1531,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VQy27CMBD8lt6NW6AXjgRahNRDlCCuaOMswSWxkXddFEX+9yoJgdCe5rFrjz0zOV28y7cXuNJE5edJqTPZpAzqLBIk651CAVc6NKhmstkA4xXq/UV9mPxitWGxOpp9vLrLrWF0R1A43klReae53jjrL+2JZ2NriMEobCd3Hjv9A4ypzwx2KQ+WWM+4g6zEh//wlkRWaWBtzb+orSkcEgWhoZJNYvsbBhyyY2ePukQR21Krup30LIi8NlDZPJPNPb4jQRAqh0wVGCjQySbt9O0BLethB65AXjKDOlVoRgt/J0G4nGTT/+5e3DoaG2tgyIBwXOA6GlQQJVRZDrL5ghrdHh3dOnnSn96ooayBB0HzAxAhk1y2IGguI6/OyBEQhq4TcFAhoxPdRspQaFMEEdd8suZ1LqdTuXj5Jq0nzhvWFcqkx18C65AXdAIAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/3VRS2/bMAz+Lb0r2tL00mPSdEWAoTDiIteClhlXi00FJNXAMPzfBz9iJwN2+h76RJHUo10+P9mfD3CRhctPi9JntkkV3MnART4bdI+2OZydeTnSIXkxScxK79KYEWrnzWwfouIHZCXO/uytRYLzoD7QFO7I6y7p4B30DRQvUJuE/TcozoV3pMiEU2DoZFRrVXBfFZKa0Tmc3Svl5+BJx+gk+0pHcHibSdFF9lq/cYjnvvU7Y0eiQA6HTmZ+l9pRwSjSGg+VbfZh2MEVr9cSDkdfoklC6V0/x8Bak9cEVcgz20wL7ElrBB2jSgUEBbJt0l6PDXRsgA/gAvVmGVPg35PWcC62GdY7zbzd3BpbUMhA8Hbe7eaqWlNCleVgm99QIx+QZfzVO/0rkrt+95W3RlafIIIqdt2BkZXdRHdC3YBga/YoIXL3YhQN1SyP9J+jhMO3z5G7+6avmSoUnop+v8BQoSK3Jqn1K9CPlV0u7fPDH/F+wZHUV2j3A/4FoG65SAsDAAA="
    },
    "Metadata": {
     "aws:cdk:path": "ConverseSqlAgentStack/CDKMetadata/Default"

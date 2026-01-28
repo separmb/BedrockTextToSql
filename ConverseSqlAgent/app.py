@@ -3,11 +3,11 @@ import os
 
 import aws_cdk as cdk
 
-from converse_sql_agent.converse_sql_agent_stack import ConverseSqlAgentStack
+from converse_text2sql_agent.converse_text2sql_agent_stack import ConverseText2SqlAgentStack
 
 
 app = cdk.App()
-ConverseSqlAgentStack(app, "ConverseSqlAgentStack",
+ConverseText2SqlAgentStack(app, "ConverseText2SqlAgentStack",
     # If you don't specify 'env', this stack will be environment-agnostic.
     # Account/Region-dependent features and context lookups will not work,
     # but a single synthesized template can be deployed anywhere.

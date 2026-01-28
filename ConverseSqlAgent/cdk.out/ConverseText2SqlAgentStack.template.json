@@ -1,0 +1,1547 @@
+{
+ "Resources": {
+  "MyVpcF9F0CA6F": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/Resource"
+   }
+  },
+  "MyVpcPublicSubnetSubnet1Subnet60D1320D": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.0.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "PublicSubnet"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet1/Subnet"
+   }
+  },
+  "MyVpcPublicSubnetSubnet1RouteTable00654ADB": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet1/RouteTable"
+   }
+  },
+  "MyVpcPublicSubnetSubnet1RouteTableAssociation2CCE9CDC": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MyVpcPublicSubnetSubnet1RouteTable00654ADB"
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPublicSubnetSubnet1Subnet60D1320D"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet1/RouteTableAssociation"
+   }
+  },
+  "MyVpcPublicSubnetSubnet1DefaultRoute2D379878": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "MyVpcIGW5C4A4F63"
+    },
+    "RouteTableId": {
+     "Ref": "MyVpcPublicSubnetSubnet1RouteTable00654ADB"
+    }
+   },
+   "DependsOn": [
+    "MyVpcVPCGW488ACE0D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet1/DefaultRoute"
+   }
+  },
+  "MyVpcPublicSubnetSubnet1EIP5C2C4ED5": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet1/EIP"
+   }
+  },
+  "MyVpcPublicSubnetSubnet1NATGateway9744F529": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "MyVpcPublicSubnetSubnet1EIP5C2C4ED5",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPublicSubnetSubnet1Subnet60D1320D"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "MyVpcPublicSubnetSubnet1DefaultRoute2D379878",
+    "MyVpcPublicSubnetSubnet1RouteTableAssociation2CCE9CDC"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet1/NATGateway"
+   }
+  },
+  "MyVpcPublicSubnetSubnet2Subnet122ADB1B": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.1.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "PublicSubnet"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet2/Subnet"
+   }
+  },
+  "MyVpcPublicSubnetSubnet2RouteTableC647F413": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet2/RouteTable"
+   }
+  },
+  "MyVpcPublicSubnetSubnet2RouteTableAssociation7AF8666E": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MyVpcPublicSubnetSubnet2RouteTableC647F413"
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPublicSubnetSubnet2Subnet122ADB1B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet2/RouteTableAssociation"
+   }
+  },
+  "MyVpcPublicSubnetSubnet2DefaultRouteAFC76296": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "MyVpcIGW5C4A4F63"
+    },
+    "RouteTableId": {
+     "Ref": "MyVpcPublicSubnetSubnet2RouteTableC647F413"
+    }
+   },
+   "DependsOn": [
+    "MyVpcVPCGW488ACE0D"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PublicSubnetSubnet2/DefaultRoute"
+   }
+  },
+  "MyVpcPrivateSubnetSubnet1SubnetE8BD536C": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "CidrBlock": "10.0.2.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "PrivateSubnet"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet1/Subnet"
+   }
+  },
+  "MyVpcPrivateSubnetSubnet1RouteTableD918A34F": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet1/RouteTable"
+   }
+  },
+  "MyVpcPrivateSubnetSubnet1RouteTableAssociation2811D7AF": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MyVpcPrivateSubnetSubnet1RouteTableD918A34F"
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPrivateSubnetSubnet1SubnetE8BD536C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet1/RouteTableAssociation"
+   }
+  },
+  "MyVpcPrivateSubnetSubnet1DefaultRoute58825934": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "MyVpcPublicSubnetSubnet1NATGateway9744F529"
+    },
+    "RouteTableId": {
+     "Ref": "MyVpcPrivateSubnetSubnet1RouteTableD918A34F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet1/DefaultRoute"
+   }
+  },
+  "MyVpcPrivateSubnetSubnet2SubnetE3BFCF91": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": "us-east-1b",
+    "CidrBlock": "10.0.3.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "PrivateSubnet"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet2/Subnet"
+   }
+  },
+  "MyVpcPrivateSubnetSubnet2RouteTable83C86AF7": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet2/RouteTable"
+   }
+  },
+  "MyVpcPrivateSubnetSubnet2RouteTableAssociationE7A10A88": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "MyVpcPrivateSubnetSubnet2RouteTable83C86AF7"
+    },
+    "SubnetId": {
+     "Ref": "MyVpcPrivateSubnetSubnet2SubnetE3BFCF91"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet2/RouteTableAssociation"
+   }
+  },
+  "MyVpcPrivateSubnetSubnet2DefaultRoute0FED656C": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "MyVpcPublicSubnetSubnet1NATGateway9744F529"
+    },
+    "RouteTableId": {
+     "Ref": "MyVpcPrivateSubnetSubnet2RouteTable83C86AF7"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/PrivateSubnetSubnet2/DefaultRoute"
+   }
+  },
+  "MyVpcIGW5C4A4F63": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/IGW"
+   }
+  },
+  "MyVpcVPCGW488ACE0D": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "MyVpcIGW5C4A4F63"
+    },
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/VPCGW"
+   }
+  },
+  "MyVpcRestrictDefaultSecurityGroupCustomResourceA4FCCD62": {
+   "Type": "Custom::VpcRestrictDefaultSG",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
+      "Arn"
+     ]
+    },
+    "DefaultSecurityGroupId": {
+     "Fn::GetAtt": [
+      "MyVpcF9F0CA6F",
+      "DefaultSecurityGroup"
+     ]
+    },
+    "Account": "589528729908"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/RestrictDefaultSecurityGroupCustomResource/Default"
+   }
+  },
+  "MyVpcDynamoDBEndpoint94B6E636": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "RouteTableIds": [
+     {
+      "Ref": "MyVpcPrivateSubnetSubnet1RouteTableD918A34F"
+     },
+     {
+      "Ref": "MyVpcPrivateSubnetSubnet2RouteTable83C86AF7"
+     }
+    ],
+    "ServiceName": {
+     "Fn::Join": [
+      "",
+      [
+       "com.amazonaws.",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".dynamodb"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc"
+     }
+    ],
+    "VpcEndpointType": "Gateway",
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/DynamoDBEndpoint/Resource"
+   }
+  },
+  "MyVpcSecretsManagerEndpointAA3AE39B": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "PrivateDnsEnabled": true,
+    "SecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "SharedSecurityGroupA3C42D70",
+       "GroupId"
+      ]
+     }
+    ],
+    "ServiceName": "com.amazonaws.us-east-1.secretsmanager",
+    "SubnetIds": [
+     {
+      "Ref": "MyVpcPrivateSubnetSubnet1SubnetE8BD536C"
+     },
+     {
+      "Ref": "MyVpcPrivateSubnetSubnet2SubnetE3BFCF91"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc"
+     }
+    ],
+    "VpcEndpointType": "Interface",
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/SecretsManagerEndpoint/Resource"
+   }
+  },
+  "MyVpcBedrockEndpointD6FD59C8": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "PrivateDnsEnabled": true,
+    "SecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "SharedSecurityGroupA3C42D70",
+       "GroupId"
+      ]
+     }
+    ],
+    "ServiceName": "com.amazonaws.us-east-1.bedrock-runtime",
+    "SubnetIds": [
+     {
+      "Ref": "MyVpcPrivateSubnetSubnet1SubnetE8BD536C"
+     },
+     {
+      "Ref": "MyVpcPrivateSubnetSubnet2SubnetE3BFCF91"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyVpc"
+     }
+    ],
+    "VpcEndpointType": "Interface",
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyVpc/BedrockEndpoint/Resource"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Effect": "Allow",
+         "Action": [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupEgress"
+         ],
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:aws:ec2:us-east-1:589528729908:security-group/",
+             {
+              "Fn::GetAtt": [
+               "MyVpcF9F0CA6F",
+               "DefaultSecurityGroup"
+              ]
+             }
+            ]
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
+     "S3Key": "7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "__entrypoint__.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
+   },
+   "DependsOn": [
+    "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.7fa1e366ee8a9ded01fc355f704cff92bfd179574e6f9cfee800a3541df1b200",
+    "aws:asset:property": "Code"
+   }
+  },
+  "BastionHostSG7EC1B225": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Allow SSH and HTTP",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": "3.83.200.219/32",
+      "Description": "Allow SSH",
+      "FromPort": 22,
+      "IpProtocol": "tcp",
+      "ToPort": 22
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/BastionHostSG/Resource"
+   }
+  },
+  "MyInstanceInstanceRole1C4D4747": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ec2.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyInstance"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyInstance/InstanceRole/Resource"
+   }
+  },
+  "MyInstanceInstanceProfile2784C631": {
+   "Type": "AWS::IAM::InstanceProfile",
+   "Properties": {
+    "Roles": [
+     {
+      "Ref": "MyInstanceInstanceRole1C4D4747"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyInstance/InstanceProfile"
+   }
+  },
+  "MyInstanceA12EC128": {
+   "Type": "AWS::EC2::Instance",
+   "Properties": {
+    "AvailabilityZone": "us-east-1a",
+    "IamInstanceProfile": {
+     "Ref": "MyInstanceInstanceProfile2784C631"
+    },
+    "ImageId": {
+     "Ref": "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter"
+    },
+    "InstanceType": "t3.micro",
+    "KeyName": "separ-key-pair",
+    "NetworkInterfaces": [
+     {
+      "AssociatePublicIpAddress": true,
+      "DeviceIndex": "0",
+      "GroupSet": [
+       {
+        "Fn::GetAtt": [
+         "BastionHostSG7EC1B225",
+         "GroupId"
+        ]
+       }
+      ],
+      "SubnetId": {
+       "Ref": "MyVpcPublicSubnetSubnet1Subnet60D1320D"
+      }
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "ConverseText2SqlAgentStack/MyInstance"
+     }
+    ],
+    "UserData": {
+     "Fn::Base64": "#!/bin/bash\nyum update -y\nsudo yum -y install mysql"
+    }
+   },
+   "DependsOn": [
+    "MyInstanceInstanceRole1C4D4747",
+    "MyVpcPublicSubnetSubnet1DefaultRoute2D379878",
+    "MyVpcPublicSubnetSubnet1RouteTableAssociation2CCE9CDC",
+    "MyVpcPublicSubnetSubnet2DefaultRouteAFC76296",
+    "MyVpcPublicSubnetSubnet2RouteTableAssociation7AF8666E"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyInstance/Resource"
+   }
+  },
+  "TEXT2SQLTable17335E23": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "id",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "id",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "advtext2sql_memory_tb"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/TEXT2SQLTable/Resource"
+   }
+  },
+  "DBSecretD58955BC": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "GenerateSecretString": {
+     "ExcludePunctuation": true,
+     "GenerateStringKey": "password",
+     "IncludeSpace": false,
+     "SecretStringTemplate": "{\"username\": \"admin\"}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/DBSecret/Resource"
+   }
+  },
+  "DBSecretAttachmentC565A14F": {
+   "Type": "AWS::SecretsManager::SecretTargetAttachment",
+   "Properties": {
+    "SecretId": {
+     "Ref": "DBSecretD58955BC"
+    },
+    "TargetId": {
+     "Ref": "MyRDSInstance48FD439C"
+    },
+    "TargetType": "AWS::RDS::DBInstance"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/DBSecret/Attachment/Resource"
+   }
+  },
+  "DBSubnetGroup": {
+   "Type": "AWS::RDS::DBSubnetGroup",
+   "Properties": {
+    "DBSubnetGroupDescription": "Subnet group for RDS database",
+    "SubnetIds": [
+     {
+      "Ref": "MyVpcPrivateSubnetSubnet1SubnetE8BD536C"
+     },
+     {
+      "Ref": "MyVpcPrivateSubnetSubnet2SubnetE3BFCF91"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/DBSubnetGroup/Default"
+   }
+  },
+  "SharedSecurityGroupA3C42D70": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for RDS and Lambda",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": {
+       "Fn::GetAtt": [
+        "MyVpcF9F0CA6F",
+        "CidrBlock"
+       ]
+      },
+      "Description": "Allow all inbound traffic from VPC CIDR",
+      "IpProtocol": "-1"
+     },
+     {
+      "CidrIp": {
+       "Fn::GetAtt": [
+        "MyVpcF9F0CA6F",
+        "CidrBlock"
+       ]
+      },
+      "Description": {
+       "Fn::Join": [
+        "",
+        [
+         "from ",
+         {
+          "Fn::GetAtt": [
+           "MyVpcF9F0CA6F",
+           "CidrBlock"
+          ]
+         },
+         ":443"
+        ]
+       ]
+      },
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": {
+     "Ref": "MyVpcF9F0CA6F"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/SharedSecurityGroup/Resource"
+   }
+  },
+  "SharedSecurityGroupfromConverseText2SqlAgentStackBastionHostSG598ADD54330609E01CA9": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Allow all inbound traffic on port 3306 from bastion",
+    "FromPort": 3306,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "SharedSecurityGroupA3C42D70",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "BastionHostSG7EC1B225",
+      "GroupId"
+     ]
+    },
+    "ToPort": 3306
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/SharedSecurityGroup/from ConverseText2SqlAgentStackBastionHostSG598ADD54:3306"
+   }
+  },
+  "MyRDSInstance48FD439C": {
+   "Type": "AWS::RDS::DBInstance",
+   "Properties": {
+    "AllocatedStorage": "20",
+    "CopyTagsToSnapshot": true,
+    "DBInstanceClass": "db.t3.micro",
+    "DBInstanceIdentifier": "myrdsdatabase",
+    "DBSubnetGroupName": {
+     "Ref": "DBSubnetGroup"
+    },
+    "DeleteAutomatedBackups": true,
+    "DeletionProtection": false,
+    "Engine": "mysql",
+    "MasterUserPassword": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:secretsmanager:",
+       {
+        "Ref": "DBSecretD58955BC"
+       },
+       ":SecretString:password::}}"
+      ]
+     ]
+    },
+    "MasterUsername": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:secretsmanager:",
+       {
+        "Ref": "DBSecretD58955BC"
+       },
+       ":SecretString:username::}}"
+      ]
+     ]
+    },
+    "MaxAllocatedStorage": 100,
+    "MultiAZ": false,
+    "PubliclyAccessible": false,
+    "StorageType": "gp2",
+    "VPCSecurityGroups": [
+     {
+      "Fn::GetAtt": [
+       "SharedSecurityGroupA3C42D70",
+       "GroupId"
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/MyRDSInstance/Resource"
+   }
+  },
+  "LambdaRole3A44B857": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/LambdaRole/Resource"
+   }
+  },
+  "LambdaRoleDefaultPolicy75625A82": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:Scan",
+        "dynamodb:UpdateItem"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "TEXT2SQLTable17335E23",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:GetSecretValue"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "DBSecretD58955BC"
+       }
+      },
+      {
+       "Action": "bedrock:InvokeModel",
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LambdaRoleDefaultPolicy75625A82",
+    "Roles": [
+     {
+      "Ref": "LambdaRole3A44B857"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/LambdaRole/DefaultPolicy/Resource"
+   }
+  },
+  "psycopg2final5AA29775": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "CompatibleRuntimes": [
+     "python3.11"
+    ],
+    "Content": {
+     "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
+     "S3Key": "91d798bf41fe886bb20bd9a15e75ef5b21ddd6bc73071fe02287e1bb790a3b71.zip"
+    },
+    "LayerName": "layer_content"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/psycopg2_final/Resource",
+    "aws:asset:path": "asset.91d798bf41fe886bb20bd9a15e75ef5b21ddd6bc73071fe02287e1bb790a3b71.zip",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Content"
+   }
+  },
+  "SQLAgentFunctionD8DFD23D": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
+     "S3Key": "eda65e351c5389d3a64e7eb3d5aa51189193c596ebfa2d23ef66298917fbf00a.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "DynamoDbMemoryTable": {
+       "Ref": "TEXT2SQLTable17335E23"
+      },
+      "BedrockModelId": "us.anthropic.claude-sonnet-4-20250514-v1:0"
+     }
+    },
+    "EphemeralStorage": {
+     "Size": 2048
+    },
+    "FunctionName": "sqlagent",
+    "Handler": "lambda_function.lambda_handler",
+    "Layers": [
+     {
+      "Ref": "psycopg2final5AA29775"
+     }
+    ],
+    "MemorySize": 1024,
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaRole3A44B857",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 900,
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "SharedSecurityGroupA3C42D70",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "MyVpcPrivateSubnetSubnet1SubnetE8BD536C"
+      },
+      {
+       "Ref": "MyVpcPrivateSubnetSubnet2SubnetE3BFCF91"
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "LambdaRoleDefaultPolicy75625A82",
+    "LambdaRole3A44B857",
+    "MyVpcPrivateSubnetSubnet1DefaultRoute58825934",
+    "MyVpcPrivateSubnetSubnet1RouteTableAssociation2811D7AF",
+    "MyVpcPrivateSubnetSubnet2DefaultRoute0FED656C",
+    "MyVpcPrivateSubnetSubnet2RouteTableAssociationE7A10A88"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/SQLAgentFunction/Resource",
+    "aws:asset:path": "asset.eda65e351c5389d3a64e7eb3d5aa51189193c596ebfa2d23ef66298917fbf00a",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "Text2SqlAngularBucketC7D19EFE": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "text2sql-angular-app-589528729908-us-east-1",
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": false,
+     "BlockPublicPolicy": false,
+     "IgnorePublicAcls": false,
+     "RestrictPublicBuckets": false
+    },
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     },
+     {
+      "Key": "aws-cdk:cr-owned:cbdd114b",
+      "Value": "true"
+     }
+    ],
+    "WebsiteConfiguration": {
+     "ErrorDocument": "index.html",
+     "IndexDocument": "index.html"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/Text2SqlAngularBucket/Resource"
+   }
+  },
+  "Text2SqlAngularBucketPolicy78EDFE0F": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "Text2SqlAngularBucketC7D19EFE"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "Text2SqlAngularBucketC7D19EFE",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:PutBucketPolicy"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "Text2SqlAngularBucketC7D19EFE",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "Text2SqlAngularBucketC7D19EFE",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/Text2SqlAngularBucket/Policy/Resource"
+   }
+  },
+  "Text2SqlAngularBucketAutoDeleteObjectsCustomResource3A786549": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "Text2SqlAngularBucketC7D19EFE"
+    }
+   },
+   "DependsOn": [
+    "Text2SqlAngularBucketPolicy78EDFE0F"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/Text2SqlAngularBucket/AutoDeleteObjectsCustomResource/Default"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role"
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "Text2SqlAngularBucketC7D19EFE"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+    "aws:asset:path": "asset.faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6",
+    "aws:asset:property": "Code"
+   }
+  },
+  "AngularAppDeploymentAwsCliLayer3D59B2D3": {
+   "Type": "AWS::Lambda::LayerVersion",
+   "Properties": {
+    "Content": {
+     "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
+     "S3Key": "c82567645316e1499ecd064c937f1183bb4a74e95800ff64fab4d308451ba5f0.zip"
+    },
+    "Description": "/opt/awscli/aws"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularAppDeployment/AwsCliLayer/Resource",
+    "aws:asset:path": "asset.c82567645316e1499ecd064c937f1183bb4a74e95800ff64fab4d308451ba5f0.zip",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Content"
+   }
+  },
+  "AngularAppDeploymentCustomResource68FF0C02": {
+   "Type": "Custom::CDKBucketDeployment",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536",
+      "Arn"
+     ]
+    },
+    "SourceBucketNames": [
+     "cdk-hnb659fds-assets-589528729908-us-east-1"
+    ],
+    "SourceObjectKeys": [
+     "d8b79dbd7d54e8745bb9b8c190ed4c6ccc5450e036c9f87608bd118d3181bf5e.zip"
+    ],
+    "DestinationBucketName": {
+     "Ref": "Text2SqlAngularBucketC7D19EFE"
+    },
+    "Prune": true,
+    "OutputObjectKeys": true
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularAppDeployment/CustomResource/Default"
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource"
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        "arn:aws:s3:::cdk-hnb659fds-assets-589528729908-us-east-1",
+        "arn:aws:s3:::cdk-hnb659fds-assets-589528729908-us-east-1/*"
+       ]
+      },
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "Text2SqlAngularBucketC7D19EFE",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "Text2SqlAngularBucketC7D19EFE",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+    "Roles": [
+     {
+      "Ref": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
+     "S3Key": "9a1fcb4a7ecba81ad70e9d3fb241f6794497da945dae5f25924e4dd002b65f2d.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "AWS_CA_BUNDLE": "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem"
+     }
+    },
+    "Handler": "index.handler",
+    "Layers": [
+     {
+      "Ref": "AngularAppDeploymentAwsCliLayer3D59B2D3"
+     }
+    ],
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF",
+    "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource",
+    "aws:asset:path": "asset.9a1fcb4a7ecba81ad70e9d3fb241f6794497da945dae5f25924e4dd002b65f2d",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/3VRy27bMBD8ltxptk56ydGPNDBQFIIV+GqsqLXCmiIF7jKCIOjfC4qyZBfoaWeGQ3J39lmuX3/I70/Q0kqV15XRhexzBnUV0NK5R/Us+1OjxO5iT9lOZKEwWuWhsMhRW9DRBcYPKAwu+qJtiJzSwNrZ2RzB2yGL5TfwOzC20InM6y9gXB4+WEZvcTakTia2YQb1WaNlMSmnRr3ZsnHa8mSd6fjSBRTee3JUwWvu3r0Lzdj6g3CwxGAVpk4W/OA62Moj0SA01LI/upTBrd6uZd5dtEGROaPVOEdCgyg7C7UrC9nPAY5gEITKI1MNFir0ss9HPjUQUSof4CvkuzBmw78ng/AlyT7FO8+8394Le2AogPB+3v32xgZhoC5KkP0v6NCf0NO01Qf+M1h1W/eMc20rg+xmZRD0cu6BCJnkJhZRYmNcF3uV26CuyPtZiG7ZJ3ULhCLB+MWEUlkSvufDII5ILvg4USB29UIv9j9HmXdfukQ/fjc2mDNU2lbj/sBDjYx+iuRsYgJnaEkZLTct7YweQxlE1vGns99e5HotX5/+kNYrHyzrGuUx1b+rYkroiwMAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Parameters": {
+  "SsmParameterValueawsserviceamiamazonlinuxlatestamzn2amikernel510hvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter": {
+   "Type": "AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>",
+   "Default": "/aws/service/ami-amazon-linux-latest/amzn2-ami-kernel-5.10-hvm-x86_64-gp2"
+  },
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
