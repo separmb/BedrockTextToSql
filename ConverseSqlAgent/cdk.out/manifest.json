@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-deploy-role-589528729908-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-cfn-exec-role-589528729908-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-589528729908-us-east-1/fd61e1701316819e83f6a5265ddbf190f800ad21e89f0cfbf9b559a8ea46fdcf.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-589528729908-us-east-1/64af31ea5476a081a4b93225700c81a25cecfc82e852a9dadf1a48dcaf26b31d.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -380,6 +380,78 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiA8C5BD3B"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiDeployment1F1F0F4963c5397f0cbd74b777e9a2f038587a3c"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiDeploymentStageprod73276492"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiEndpoint20D53B8C"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiOPTIONS9B873B3A"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiapi8894E57D"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiapiOPTIONSB768FD62"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiapitext2sqlB938B603"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiapitext2sqlOPTIONS1EB1184A"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/POST/ApiPermission.ConverseText2SqlAgentStackAngularBackendApiE0141A5D.POST..api.text2sql": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiapitext2sqlPOSTApiPermissionConverseText2SqlAgentStackAngularBackendApiE0141A5DPOSTapitext2sql7E1A66C8"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/POST/ApiPermission.Test.ConverseText2SqlAgentStackAngularBackendApiE0141A5D.POST..api.text2sql": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiapitext2sqlPOSTApiPermissionTestConverseText2SqlAgentStackAngularBackendApiE0141A5DPOSTapitext2sql4C3C910A"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AngularBackendApiapitext2sqlPOST3674CDBE"
           }
         ],
         "/ConverseText2SqlAgentStack/CDKMetadata/Default": [

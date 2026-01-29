@@ -26,7 +26,7 @@ def lambda_handler(event, context):
         except json.JSONDecodeError:
             body = event['body']  # Keep as string if not valid JSON
     
-    input_text = body["prompt"]
+    input_text = body["input_text"]
     
     # Initialize SQL agent
     print("Initializing agent")
@@ -48,6 +48,6 @@ def lambda_handler(event, context):
     
     return {
         "statusCode": 200,
-        "body": response,
+        "body": response
         "headers": cors_headers
     }

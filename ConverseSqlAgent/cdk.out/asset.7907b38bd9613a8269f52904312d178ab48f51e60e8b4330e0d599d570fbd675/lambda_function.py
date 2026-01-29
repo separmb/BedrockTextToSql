@@ -26,7 +26,7 @@ def lambda_handler(event, context):
         except json.JSONDecodeError:
             body = event['body']  # Keep as string if not valid JSON
     
-    input_text = body["prompt"]
+    input_text = body["input_text"]
     
     # Initialize SQL agent
     print("Initializing agent")
@@ -39,15 +39,8 @@ def lambda_handler(event, context):
     
     print("Completed agent execution")
     print(response)
-
-    cors_headers = {
-        "Access-Control-Allow-Origin": "*",  # Allow all origins; change to specific domain for security
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization"
-    }
     
     return {
         "statusCode": 200,
-        "body": response,
-        "headers": cors_headers
+        "body": response
     }

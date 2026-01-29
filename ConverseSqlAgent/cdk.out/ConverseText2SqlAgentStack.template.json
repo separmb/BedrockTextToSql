@@ -1057,7 +1057,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
-     "S3Key": "eda65e351c5389d3a64e7eb3d5aa51189193c596ebfa2d23ef66298917fbf00a.zip"
+     "S3Key": "3e2a842811f1dfda98ee647b19d89372de3c187a5451d0a75739c77221e30be2.zip"
     },
     "Environment": {
      "Variables": {
@@ -1115,7 +1115,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ConverseText2SqlAgentStack/SQLAgentFunction/Resource",
-    "aws:asset:path": "asset.eda65e351c5389d3a64e7eb3d5aa51189193c596ebfa2d23ef66298917fbf00a",
+    "aws:asset:path": "asset.3e2a842811f1dfda98ee647b19d89372de3c187a5451d0a75739c77221e30be2",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -1496,10 +1496,318 @@
     "aws:asset:property": "Code"
    }
   },
+  "AngularBackendApiA8C5BD3B": {
+   "Type": "AWS::ApiGateway::RestApi",
+   "Properties": {
+    "Description": "API Gateway for Angular app backend",
+    "Name": "Angular Backend API"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/Resource"
+   }
+  },
+  "AngularBackendApiDeployment1F1F0F4963c5397f0cbd74b777e9a2f038587a3c": {
+   "Type": "AWS::ApiGateway::Deployment",
+   "Properties": {
+    "Description": "API Gateway for Angular app backend",
+    "RestApiId": {
+     "Ref": "AngularBackendApiA8C5BD3B"
+    }
+   },
+   "DependsOn": [
+    "AngularBackendApiapiOPTIONSB768FD62",
+    "AngularBackendApiapi8894E57D",
+    "AngularBackendApiapitext2sqlOPTIONS1EB1184A",
+    "AngularBackendApiapitext2sqlPOST3674CDBE",
+    "AngularBackendApiapitext2sqlB938B603",
+    "AngularBackendApiOPTIONS9B873B3A"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/Deployment/Resource"
+   }
+  },
+  "AngularBackendApiDeploymentStageprod73276492": {
+   "Type": "AWS::ApiGateway::Stage",
+   "Properties": {
+    "DeploymentId": {
+     "Ref": "AngularBackendApiDeployment1F1F0F4963c5397f0cbd74b777e9a2f038587a3c"
+    },
+    "RestApiId": {
+     "Ref": "AngularBackendApiA8C5BD3B"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/DeploymentStage.prod/Resource"
+   }
+  },
+  "AngularBackendApiOPTIONS9B873B3A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Fn::GetAtt": [
+      "AngularBackendApiA8C5BD3B",
+      "RootResourceId"
+     ]
+    },
+    "RestApiId": {
+     "Ref": "AngularBackendApiA8C5BD3B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/Default/OPTIONS/Resource"
+   }
+  },
+  "AngularBackendApiapi8894E57D": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Fn::GetAtt": [
+      "AngularBackendApiA8C5BD3B",
+      "RootResourceId"
+     ]
+    },
+    "PathPart": "api",
+    "RestApiId": {
+     "Ref": "AngularBackendApiA8C5BD3B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/Default/api/Resource"
+   }
+  },
+  "AngularBackendApiapiOPTIONSB768FD62": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AngularBackendApiapi8894E57D"
+    },
+    "RestApiId": {
+     "Ref": "AngularBackendApiA8C5BD3B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/Default/api/OPTIONS/Resource"
+   }
+  },
+  "AngularBackendApiapitext2sqlB938B603": {
+   "Type": "AWS::ApiGateway::Resource",
+   "Properties": {
+    "ParentId": {
+     "Ref": "AngularBackendApiapi8894E57D"
+    },
+    "PathPart": "text2sql",
+    "RestApiId": {
+     "Ref": "AngularBackendApiA8C5BD3B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/Resource"
+   }
+  },
+  "AngularBackendApiapitext2sqlOPTIONS1EB1184A": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "ApiKeyRequired": false,
+    "AuthorizationType": "NONE",
+    "HttpMethod": "OPTIONS",
+    "Integration": {
+     "IntegrationResponses": [
+      {
+       "ResponseParameters": {
+        "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+        "method.response.header.Access-Control-Allow-Origin": "'*'",
+        "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,PUT,POST,DELETE,PATCH,HEAD'"
+       },
+       "StatusCode": "204"
+      }
+     ],
+     "RequestTemplates": {
+      "application/json": "{ statusCode: 200 }"
+     },
+     "Type": "MOCK"
+    },
+    "MethodResponses": [
+     {
+      "ResponseParameters": {
+       "method.response.header.Access-Control-Allow-Headers": true,
+       "method.response.header.Access-Control-Allow-Origin": true,
+       "method.response.header.Access-Control-Allow-Methods": true
+      },
+      "StatusCode": "204"
+     }
+    ],
+    "ResourceId": {
+     "Ref": "AngularBackendApiapitext2sqlB938B603"
+    },
+    "RestApiId": {
+     "Ref": "AngularBackendApiA8C5BD3B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/OPTIONS/Resource"
+   }
+  },
+  "AngularBackendApiapitext2sqlPOSTApiPermissionConverseText2SqlAgentStackAngularBackendApiE0141A5DPOSTapitext2sql7E1A66C8": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SQLAgentFunctionD8DFD23D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:589528729908:",
+       {
+        "Ref": "AngularBackendApiA8C5BD3B"
+       },
+       "/",
+       {
+        "Ref": "AngularBackendApiDeploymentStageprod73276492"
+       },
+       "/POST/api/text2sql"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/POST/ApiPermission.ConverseText2SqlAgentStackAngularBackendApiE0141A5D.POST..api.text2sql"
+   }
+  },
+  "AngularBackendApiapitext2sqlPOSTApiPermissionTestConverseText2SqlAgentStackAngularBackendApiE0141A5DPOSTapitext2sql4C3C910A": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "SQLAgentFunctionD8DFD23D",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:589528729908:",
+       {
+        "Ref": "AngularBackendApiA8C5BD3B"
+       },
+       "/test-invoke-stage/POST/api/text2sql"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/POST/ApiPermission.Test.ConverseText2SqlAgentStackAngularBackendApiE0141A5D.POST..api.text2sql"
+   }
+  },
+  "AngularBackendApiapitext2sqlPOST3674CDBE": {
+   "Type": "AWS::ApiGateway::Method",
+   "Properties": {
+    "AuthorizationType": "NONE",
+    "HttpMethod": "POST",
+    "Integration": {
+     "IntegrationHttpMethod": "POST",
+     "RequestTemplates": {
+      "application/json": "{ \"statusCode\": \"200\" }"
+     },
+     "Type": "AWS_PROXY",
+     "Uri": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+        {
+         "Fn::GetAtt": [
+          "SQLAgentFunctionD8DFD23D",
+          "Arn"
+         ]
+        },
+        "/invocations"
+       ]
+      ]
+     }
+    },
+    "ResourceId": {
+     "Ref": "AngularBackendApiapitext2sqlB938B603"
+    },
+    "RestApiId": {
+     "Ref": "AngularBackendApiA8C5BD3B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/POST/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/3VRy27bMBD8ltxptk56ydGPNDBQFIIV+GqsqLXCmiIF7jKCIOjfC4qyZBfoaWeGQ3J39lmuX3/I70/Q0kqV15XRhexzBnUV0NK5R/Us+1OjxO5iT9lOZKEwWuWhsMhRW9DRBcYPKAwu+qJtiJzSwNrZ2RzB2yGL5TfwOzC20InM6y9gXB4+WEZvcTakTia2YQb1WaNlMSmnRr3ZsnHa8mSd6fjSBRTee3JUwWvu3r0Lzdj6g3CwxGAVpk4W/OA62Moj0SA01LI/upTBrd6uZd5dtEGROaPVOEdCgyg7C7UrC9nPAY5gEITKI1MNFir0ss9HPjUQUSof4CvkuzBmw78ng/AlyT7FO8+8394Le2AogPB+3v32xgZhoC5KkP0v6NCf0NO01Qf+M1h1W/eMc20rg+xmZRD0cu6BCJnkJhZRYmNcF3uV26CuyPtZiG7ZJ3ULhCLB+MWEUlkSvufDII5ILvg4USB29UIv9j9HmXdfukQ/fjc2mDNU2lbj/sBDjYx+iuRsYgJnaEkZLTct7YweQxlE1vGns99e5HotX5/+kNYrHyzrGuUx1b+rYkroiwMAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/21SyW7jMAz9lt4VzbSdS49ZOkWAWYykyDWgZcbRxJYMkWpgGP73gSTHdoqe+Pj4xFVP8vHlh/z+AFdaqOKyqHQuuz2Dugi40rFD9SS7Q6PE+mQO2VpkPq+02vvcIAduQjvrGd8hr3DiJ25JZJUG1taM4gBet1kwf4DfgPEKrcic/gDGKfHWMDqDoyB1MnhLZlDnGg2LgTk06tUUjdWGB+noxkwnUDjX7FF5p7l9c9Y3sfU7YmuIwShMnUz4TrU1pUOiXmioZbezaQc3e3uWOXvSFYrMVlrFORLqRdEaqG2Ry25cYAS9IFQOmWowUKKT3T76QwMBJfMOrkSeLWMUfI70whUku7TecebNak5sgCEHwvm8m9XN60UFdV6A7H5Bi+6Ajoar3vk/vVG3c494r01ZIVszj2boak3hUS/o+dgBETLJZTCiwKaybehcrry6IG9GIqhll9gVEIoEQ8oBJTPte+73Ahpdpj8jux0SLxsdzzbAqVCcf/L2DGX6AxHskKx3CmMLv5HPtgjBAd2iQ+aI+35Ge2Jbf6X6FMqc/dAFulgm7iaU16aMKwQHNTK64TbHKpziCFdSlZbLK60rHa8TxH89N557kbV8tubbs3x8lC8P/0jrhfOGdY1yl+x/Vj9h5R4EAAA="
    },
    "Metadata": {
     "aws:cdk:path": "ConverseText2SqlAgentStack/CDKMetadata/Default"
@@ -1515,6 +1823,30 @@
    "Type": "AWS::SSM::Parameter::Value<String>",
    "Default": "/cdk-bootstrap/hnb659fds/version",
    "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Outputs": {
+  "AngularBackendApiEndpoint20D53B8C": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "AngularBackendApiA8C5BD3B"
+      },
+      ".execute-api.us-east-1.",
+      {
+       "Ref": "AWS::URLSuffix"
+      },
+      "/",
+      {
+       "Ref": "AngularBackendApiDeploymentStageprod73276492"
+      },
+      "/"
+     ]
+    ]
+   }
   }
  },
  "Rules": {

@@ -8,6 +8,7 @@ from aws_cdk import (
     aws_iam as iam,
     aws_s3 as s3,
     aws_s3_deployment as s3deploy,
+    aws_apigateway as apigateway,
     RemovalPolicy,
     Duration,
     Size,
@@ -187,10 +188,6 @@ class ConverseText2SqlAgentStack(Stack):
             actions=["bedrock:InvokeModel"],
             resources=[f"*"]
         ))
-        # lambda_role.add_to_policy(iam.PolicyStatement(
-        #     actions=["bedrock:InvokeModel"],
-        #     resources=[f"arn:aws:bedrock:::foundation-model/anthropic.claude-sonnet-4-20250514-v1:0"]
-        # ))
 
         # Create Lambda layers
         layer1 = lambda_.LayerVersion(
@@ -264,3 +261,29 @@ class ConverseText2SqlAgentStack(Stack):
             # distribution=distribution,
             # distribution_paths=["/*"]
         )
+
+        # set up API Gateway to call lambda
+        api = apigateway.RestApi(
+            self, "AngularBackendApi",
+            rest_api_name="Angular Backend API",
+            description="API Gateway for Angular app backend",
+            default_cors_preflight_options=apigateway.CorsOptions(
+                allow_origins=apigateway.Cors.ALL_ORIGINS,
+                allow_methods=apigateway.Cors.ALL_METHODS,
+                allow_headers=["Content-Type", "X-Amz-Date", "Authorization", "X-Api-Key", "X-Amz-Security-Token"]
+            )
+        )
+
+        # Create API Gateway integration with Lambda
+        lambda_integration = apigateway.LambdaIntegration(
+            lambda_function,
+            request_templates={"application/json": '{ "statusCode": "200" }'},
+        )
+
+        # Add resources and methods to API Gateway
+        api_resource = api.root.add_resource("api")
+        
+        # Add specific endpoints
+        users_resource = api_resource.add_resource("text2sql")
+        users_resource.add_method("POST", lambda_integration)
+        

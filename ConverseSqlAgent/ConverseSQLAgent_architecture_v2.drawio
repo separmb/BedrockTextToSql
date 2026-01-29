@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36" version="29.3.4" pages="5">
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36 Edg/143.0.0.0" version="29.3.6" pages="5">
   <diagram name="Page-1" id="2z73DCdU1QT6Ai-CfpeX">
-    <mxGraphModel dx="1281" dy="1627" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1216" dy="1629" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -137,7 +137,7 @@
           <mxGeometry height="60" width="50" x="80" y="148" as="geometry" />
         </mxCell>
         <mxCell id="i6C8R437foIGeP0Uccei-5" parent="DSjaal-3AEKrCCzgYivw-30" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="S3 Static Website" vertex="1">
-          <mxGeometry height="20" width="100" x="55" y="208" as="geometry" />
+          <mxGeometry height="20" width="100" x="53.5" y="128" as="geometry" />
         </mxCell>
         <mxCell id="Rx9YAKKADOQ1UnULlCZw-14" edge="1" parent="DSjaal-3AEKrCCzgYivw-30" source="DSjaal-3AEKrCCzgYivw-58" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
@@ -145,18 +145,26 @@
             <mxPoint x="380" y="370" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="Rx9YAKKADOQ1UnULlCZw-29" edge="1" parent="DSjaal-3AEKrCCzgYivw-30" source="i6C8R437foIGeP0Uccei-2" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" value="">
-          <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <Array as="points">
-              <mxPoint x="160" y="178" />
-              <mxPoint x="160" y="280" />
-            </Array>
-            <mxPoint x="130" y="170" as="sourcePoint" />
-            <mxPoint x="210" y="280" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="Rx9YAKKADOQ1UnULlCZw-38" edge="1" parent="DSjaal-3AEKrCCzgYivw-30" source="DSjaal-3AEKrCCzgYivw-96" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="DSjaal-3AEKrCCzgYivw-96">
           <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="w9kqrYlcXBdp9zG9wNVj-2" parent="DSjaal-3AEKrCCzgYivw-30" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" value="API Gateway" vertex="1">
+          <mxGeometry height="20" width="100" x="53.5" y="312" as="geometry" />
+        </mxCell>
+        <mxCell id="w9kqrYlcXBdp9zG9wNVj-4" edge="1" parent="DSjaal-3AEKrCCzgYivw-30" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" target="i6C8R437foIGeP0Uccei-2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="103.91584158415844" y="251" as="sourcePoint" />
+            <mxPoint x="370" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w9kqrYlcXBdp9zG9wNVj-5" edge="1" parent="DSjaal-3AEKrCCzgYivw-30" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" target="DSjaal-3AEKrCCzgYivw-98" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="130" y="279" as="sourcePoint" />
+            <mxPoint x="370" y="210" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w9kqrYlcXBdp9zG9wNVj-6" parent="DSjaal-3AEKrCCzgYivw-30" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#8C4FFF;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="78.5" y="254" as="geometry" />
         </mxCell>
         <mxCell id="DSjaal-3AEKrCCzgYivw-74" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="User" vertex="1">
           <mxGeometry height="60" width="30" x="10" y="-956" as="geometry" />
