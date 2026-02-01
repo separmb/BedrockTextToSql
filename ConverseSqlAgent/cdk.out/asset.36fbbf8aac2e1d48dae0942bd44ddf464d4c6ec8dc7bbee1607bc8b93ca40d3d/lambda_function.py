@@ -1,6 +1,5 @@
 import os
 import json
-import boto3
 
 from agent import BaseAgent
 
@@ -9,16 +8,9 @@ from tool_groups.memory import MEMORY_TOOL_GROUP
 
 memory_table_name = os.environ.get('DynamoDbMemoryTable', 'advtext2sql_memory_tb')
 model_id = os.environ.get('BedrockModelId', 'us.anthropic.claude-sonnet-4-20250514-v1:0')
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table(os.environ['CONNECTIONS_TABLE'])
 
 def lambda_handler(event, context):
     print(event)
-
-    # Handle incoming messages and broadcast to other connections
-    connection_id = event['requestContext']['connectionId']
-    domain_name = event['requestContext']['domainName']
-    stage = event['requestContext']['stage']
 
     # Extract information from the event
     http_method = event.get('httpMethod')
@@ -59,31 +51,9 @@ def lambda_handler(event, context):
     response_json = {
         "sql": response
     }
-  
-    # Get all connections from DynamoDB
-    response = table.scan()
-    connections = response['Items']
-    
-    # Send message to all connected clients
-    api_gateway_management = boto3.client(
-        'apigatewaymanagementapi',
-        endpoint_url=f'https://{domain_name}/{stage}'
-    )
-    
-    for connection in connections:
-        try:
-            api_gateway_management.post_to_connection(
-                ConnectionId=connection['connectionId'],
-                Data=json.dumps(response_json)
-            )
-        except Exception as e:
-            # Connection might be stale, remove it
-            table.delete_item(Key={'connectionId': connection['connectionId']})
     
     return {
         "statusCode": 200,
         "body": json.dumps(response_json),
         "headers": cors_headers
     }
-
-

@@ -8,11 +8,13 @@ from aws_cdk import (
     aws_iam as iam,
     aws_s3 as s3,
     aws_s3_deployment as s3deploy,
-    aws_apigateway as apigateway,
+    #aws_apigateway as apigateway,
+    aws_apigatewayv2 as apigwv2,
     RemovalPolicy,
     Duration,
     Size,
 )
+from aws_cdk.aws_apigatewayv2_integrations import WebSocketLambdaIntegration
 from constructs import Construct
 
 from cdk_nag import ( AwsSolutionsChecks, NagSuppressions )
@@ -197,6 +199,18 @@ class ConverseText2SqlAgentStack(Stack):
             compatible_runtimes=[lambda_.Runtime.PYTHON_3_11]
         )        
 
+        # Create DynamoDB table to store connections
+        connections_table = dynamodb.Table(
+            self, "ConnectionsTable",
+            table_name="websocket-connections",
+            partition_key=dynamodb.Attribute(
+                name="connectionId",
+                type=dynamodb.AttributeType.STRING
+            ),
+            billing_mode=dynamodb.BillingMode.PAY_PER_REQUEST,
+            removal_policy=RemovalPolicy.DESTROY
+        )
+
         # Create Lambda function
         lambda_function = lambda_.Function(
             self, "SQLAgentFunction",
@@ -214,7 +228,8 @@ class ConverseText2SqlAgentStack(Stack):
             timeout=Duration.minutes(15),
             environment={
                 "DynamoDbMemoryTable": dynamodb_table.table_name,
-                "BedrockModelId": "us.anthropic.claude-sonnet-4-20250514-v1:0"
+                "BedrockModelId": "us.anthropic.claude-sonnet-4-20250514-v1:0",
+                "CONNECTIONS_TABLE": connections_table.table_name
             }
         )
 
@@ -222,39 +237,60 @@ class ConverseText2SqlAgentStack(Stack):
         dynamodb_table.grant_read_write_data(lambda_function)
         db_secret.grant_read(lambda_function)
 
+        # Lambda function for $connect route
+        connect_handler = lambda_.Function(
+            self, "ConnectHandler",
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            handler="connect.handler",
+            code=lambda_.Code.from_asset("./src/ConverseSqlAgent"),
+            environment={
+                "CONNECTIONS_TABLE": connections_table.table_name
+            }
+        )
+
+        # Lambda function for $disconnect route
+        disconnect_handler = lambda_.Function(
+            self, "DisconnectHandler",
+            runtime=lambda_.Runtime.PYTHON_3_9,
+            handler="disconnect.handler",
+            code=lambda_.Code.from_asset("./src/ConverseSqlAgent"),
+            environment={
+                "CONNECTIONS_TABLE": connections_table.table_name
+            }
+        )
+
+        # Grant DynamoDB permissions to Lambda functions
+        connections_table.grant_read_write_data(connect_handler)
+        connections_table.grant_read_write_data(disconnect_handler)
+        connections_table.grant_read_write_data(lambda_function)
+
         # Create public S3 bucket for the angular app and upload file to bucket
         bucket = s3.Bucket(
             self, "Text2SqlAngularBucket",
             bucket_name=f"text2sql-angular-app-{self.account}-{self.region}",  # Ensure unique name
             website_index_document="index.html",
             website_error_document="index.html",  # For Angular routing
-            public_read_access=True,
-            block_public_access=s3.BlockPublicAccess(
-                block_public_acls=False,
-                block_public_policy=False,
-                ignore_public_acls=False,
-                restrict_public_buckets=False
-            ),
+            public_read_access=False,
             removal_policy=RemovalPolicy.DESTROY,  # Be careful with this in production
             auto_delete_objects=True  # This will delete objects when stack is destroyed
         )
 
         # Create a bucket policy statement for public read access
-        policy_statement = iam.PolicyStatement(
-            effect=iam.Effect.ALLOW,
-            principals=[iam.AnyPrincipal()],  # Example: allow all (use cautiously)
-            actions=["s3:GetObject"],
-            resources=[f"{bucket.bucket_arn}/*"]
-        )
+        # policy_statement = iam.PolicyStatement(
+        #     effect=iam.Effect.ALLOW,
+        #     principals=[iam.AnyPrincipal()],  # Example: allow all (use cautiously)
+        #     actions=["s3:GetObject"],
+        #     resources=[f"{bucket.bucket_arn}/*"]
+        # )
 
         # Attach the policy to the bucket
-        bucket.add_to_resource_policy(policy_statement)
+        # bucket.add_to_resource_policy(policy_statement)
 
         # Deploy files from local directory to S3
         deployment = s3deploy.BucketDeployment(
             self, "AngularAppDeployment",
             sources=[
-                s3deploy.Source.asset("./angular/angular_upload.zip")  
+                s3deploy.Source.asset("./angular/ng-text-to-sql.zip")  
             ],
             destination_bucket=bucket,
             # Invalidate CloudFront cache if using CloudFront
@@ -262,28 +298,46 @@ class ConverseText2SqlAgentStack(Stack):
             # distribution_paths=["/*"]
         )
 
-        # set up API Gateway to call lambda
-        api = apigateway.RestApi(
-            self, "AngularBackendApi",
-            rest_api_name="Angular Backend API",
-            description="API Gateway for Angular app backend",
-            default_cors_preflight_options=apigateway.CorsOptions(
-                allow_origins=apigateway.Cors.ALL_ORIGINS,
-                allow_methods=apigateway.Cors.ALL_METHODS,
-                allow_headers=["Content-Type", "X-Amz-Date", "Authorization", "X-Api-Key", "X-Amz-Security-Token"]
+        # Create WebSocket API
+        web_socket_api = apigwv2.WebSocketApi(
+            self, "MyWebSocketApi",
+            api_name="MyWebSocketApi",
+            description="WebSocket API for real-time communication",
+            connect_route_options=apigwv2.WebSocketRouteOptions(
+                integration=WebSocketLambdaIntegration(
+                    "ConnectIntegration", 
+                    connect_handler
+                )
+            ),
+            disconnect_route_options=apigwv2.WebSocketRouteOptions(
+                integration=WebSocketLambdaIntegration(
+                    "DisconnectIntegration", 
+                    disconnect_handler
+                )
+            ),
+            default_route_options=apigwv2.WebSocketRouteOptions(
+                integration=WebSocketLambdaIntegration(
+                    "DefaultIntegration", 
+                    lambda_function
+                )
             )
         )
 
-        # Create API Gateway integration with Lambda
-        lambda_integration = apigateway.LambdaIntegration(
-            lambda_function,
-            request_templates={"application/json": '{ "statusCode": "200" }'},
+        # Create WebSocket Stage
+        stage = apigwv2.WebSocketStage(
+            self, "MyWebSocketStage",
+            web_socket_api=web_socket_api,
+            stage_name="dev",
+            description="Development stage",
+            auto_deploy=True
         )
 
-        # Add resources and methods to API Gateway
-        api_resource = api.root.add_resource("api")
+        # Grant API Gateway Management API permissions to Lambda functions
+        # This allows Lambda to send messages back to connected clients
+        api_gateway_management_policy = iam.PolicyStatement(
+            effect=iam.Effect.ALLOW,
+            actions=["execute-api:ManageConnections"],
+            resources=[f"arn:aws:execute-api:{self.region}:{self.account}:{web_socket_api.api_id}/*"]
+        )
         
-        # Add specific endpoints
-        users_resource = api_resource.add_resource("text2sql")
-        users_resource.add_method("POST", lambda_integration)
-        
+        lambda_function.add_to_role_policy(api_gateway_management_policy)

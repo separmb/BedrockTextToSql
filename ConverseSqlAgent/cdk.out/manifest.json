@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-deploy-role-589528729908-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-cfn-exec-role-589528729908-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-589528729908-us-east-1/64af31ea5476a081a4b93225700c81a25cecfc82e852a9dadf1a48dcaf26b31d.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-589528729908-us-east-1/195111b33081949aaa536ca47cf04974455e8d69f03585f069ed65dbfc1bf9e3.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -300,10 +300,60 @@
             "data": "psycopg2final5AA29775"
           }
         ],
+        "/ConverseText2SqlAgentStack/ConnectionsTable": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "ConnectionsTable8000B8A1"
+            }
+          }
+        ],
+        "/ConverseText2SqlAgentStack/ConnectionsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ConnectionsTable8000B8A1"
+          }
+        ],
         "/ConverseText2SqlAgentStack/SQLAgentFunction/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "SQLAgentFunctionD8DFD23D"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/ConnectHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ConnectHandlerServiceRole7E4A9B1F"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/ConnectHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ConnectHandlerServiceRoleDefaultPolicy7DE94863"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/ConnectHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ConnectHandler2FFD52D8"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/DisconnectHandler/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DisconnectHandlerServiceRoleE54F14F9"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/DisconnectHandler/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DisconnectHandlerServiceRoleDefaultPolicy1800B9E5"
+          }
+        ],
+        "/ConverseText2SqlAgentStack/DisconnectHandler/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DisconnectHandlerCB7ED6F7"
           }
         ],
         "/ConverseText2SqlAgentStack/Text2SqlAngularBucket/Resource": [
@@ -382,76 +432,70 @@
             "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Resource": [
+        "/ConverseText2SqlAgentStack/MyWebSocketApi/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiA8C5BD3B"
+            "data": "MyWebSocketApiF567CA2F"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Deployment/Resource": [
+        "/ConverseText2SqlAgentStack/MyWebSocketApi/$connect-Route/ConnectIntegration-Permission": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiDeployment1F1F0F4963c5397f0cbd74b777e9a2f038587a3c"
+            "data": "MyWebSocketApiconnectRouteConnectIntegrationPermission96C25E9F"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/DeploymentStage.prod/Resource": [
+        "/ConverseText2SqlAgentStack/MyWebSocketApi/$connect-Route/ConnectIntegration/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiDeploymentStageprod73276492"
+            "data": "MyWebSocketApiconnectRouteConnectIntegration33C26DBB"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Endpoint": [
+        "/ConverseText2SqlAgentStack/MyWebSocketApi/$connect-Route/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiEndpoint20D53B8C"
+            "data": "MyWebSocketApiconnectRouteC96CF130"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/OPTIONS/Resource": [
+        "/ConverseText2SqlAgentStack/MyWebSocketApi/$disconnect-Route/DisconnectIntegration-Permission": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiOPTIONS9B873B3A"
+            "data": "MyWebSocketApidisconnectRouteDisconnectIntegrationPermissionABEEFF43"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/Resource": [
+        "/ConverseText2SqlAgentStack/MyWebSocketApi/$disconnect-Route/DisconnectIntegration/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiapi8894E57D"
+            "data": "MyWebSocketApidisconnectRouteDisconnectIntegration596D93DF"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/OPTIONS/Resource": [
+        "/ConverseText2SqlAgentStack/MyWebSocketApi/$disconnect-Route/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiapiOPTIONSB768FD62"
+            "data": "MyWebSocketApidisconnectRoute7C662137"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/Resource": [
+        "/ConverseText2SqlAgentStack/MyWebSocketApi/$default-Route/DefaultIntegration-Permission": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiapitext2sqlB938B603"
+            "data": "MyWebSocketApidefaultRouteDefaultIntegrationPermission0917D369"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/OPTIONS/Resource": [
+        "/ConverseText2SqlAgentStack/MyWebSocketApi/$default-Route/DefaultIntegration/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiapitext2sqlOPTIONS1EB1184A"
+            "data": "MyWebSocketApidefaultRouteDefaultIntegration16B4269D"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/POST/ApiPermission.ConverseText2SqlAgentStackAngularBackendApiE0141A5D.POST..api.text2sql": [
+        "/ConverseText2SqlAgentStack/MyWebSocketApi/$default-Route/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiapitext2sqlPOSTApiPermissionConverseText2SqlAgentStackAngularBackendApiE0141A5DPOSTapitext2sql7E1A66C8"
+            "data": "MyWebSocketApidefaultRoute31459508"
           }
         ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/POST/ApiPermission.Test.ConverseText2SqlAgentStackAngularBackendApiE0141A5D.POST..api.text2sql": [
+        "/ConverseText2SqlAgentStack/MyWebSocketStage/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiapitext2sqlPOSTApiPermissionTestConverseText2SqlAgentStackAngularBackendApiE0141A5DPOSTapitext2sql4C3C910A"
-          }
-        ],
-        "/ConverseText2SqlAgentStack/AngularBackendApi/Default/api/text2sql/POST/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "AngularBackendApiapitext2sqlPOST3674CDBE"
+            "data": "MyWebSocketStageC69AC610"
           }
         ],
         "/ConverseText2SqlAgentStack/CDKMetadata/Default": [
