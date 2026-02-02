@@ -1021,7 +1021,10 @@
        }
       },
       {
-       "Action": "bedrock:InvokeModel",
+       "Action": [
+        "bedrock:ApplyGuardrail",
+        "bedrock:InvokeModel"
+       ],
        "Effect": "Allow",
        "Resource": "*"
       },
@@ -1103,7 +1106,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
-     "S3Key": "81de4d60a9507742bad7c5730b0f8019f3ecff02638f3d810de95834849262c4.zip"
+     "S3Key": "a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd.zip"
     },
     "Environment": {
      "Variables": {
@@ -1113,6 +1116,12 @@
       "BedrockModelId": "us.anthropic.claude-sonnet-4-20250514-v1:0",
       "CONNECTIONS_TABLE": {
        "Ref": "ConnectionsTable8000B8A1"
+      },
+      "BEDROCK_GUARDRAIL_ID": {
+       "Fn::ImportValue": "TextToSqlGuardrailStack:ExportsOutputFnGetAttTextToSqlGuardrailGuardrailId229E8C8B"
+      },
+      "BEDROCK_GUARDRAIL_VERSION": {
+       "Fn::ImportValue": "TextToSqlGuardrailStack:ExportsOutputFnGetAttTextToSqlGuardrailVersionVersion7C5A061F"
       }
      }
     },
@@ -1164,7 +1173,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ConverseText2SqlAgentStack/SQLAgentFunction/Resource",
-    "aws:asset:path": "asset.81de4d60a9507742bad7c5730b0f8019f3ecff02638f3d810de95834849262c4",
+    "aws:asset:path": "asset.a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -1255,7 +1264,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
-     "S3Key": "81de4d60a9507742bad7c5730b0f8019f3ecff02638f3d810de95834849262c4.zip"
+     "S3Key": "a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd.zip"
     },
     "Environment": {
      "Variables": {
@@ -1279,7 +1288,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ConverseText2SqlAgentStack/ConnectHandler/Resource",
-    "aws:asset:path": "asset.81de4d60a9507742bad7c5730b0f8019f3ecff02638f3d810de95834849262c4",
+    "aws:asset:path": "asset.a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -1370,7 +1379,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
-     "S3Key": "81de4d60a9507742bad7c5730b0f8019f3ecff02638f3d810de95834849262c4.zip"
+     "S3Key": "a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd.zip"
     },
     "Environment": {
      "Variables": {
@@ -1394,7 +1403,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ConverseText2SqlAgentStack/DisconnectHandler/Resource",
-    "aws:asset:path": "asset.81de4d60a9507742bad7c5730b0f8019f3ecff02638f3d810de95834849262c4",
+    "aws:asset:path": "asset.a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }

@@ -1,0 +1,293 @@
+{
+ "Description": "Amazon Bedrock Guardrails for Text-to-SQL Agent",
+ "Resources": {
+  "TextToSqlGuardrail": {
+   "Type": "AWS::Bedrock::Guardrail",
+   "Properties": {
+    "BlockedInputMessaging": "I cannot process this request as it may contain inappropriate content or unsafe SQL operations.",
+    "BlockedOutputsMessaging": "I cannot generate this SQL query as it may contain unsafe operations or inappropriate content.",
+    "ContentPolicyConfig": {
+     "FiltersConfig": [
+      {
+       "InputStrength": "HIGH",
+       "OutputStrength": "NONE",
+       "Type": "PROMPT_ATTACK"
+      },
+      {
+       "InputStrength": "MEDIUM",
+       "OutputStrength": "MEDIUM",
+       "Type": "HATE"
+      },
+      {
+       "InputStrength": "MEDIUM",
+       "OutputStrength": "MEDIUM",
+       "Type": "INSULTS"
+      },
+      {
+       "InputStrength": "MEDIUM",
+       "OutputStrength": "MEDIUM",
+       "Type": "SEXUAL"
+      },
+      {
+       "InputStrength": "MEDIUM",
+       "OutputStrength": "MEDIUM",
+       "Type": "VIOLENCE"
+      }
+     ]
+    },
+    "ContextualGroundingPolicyConfig": {
+     "FiltersConfig": [
+      {
+       "Threshold": 0.8,
+       "Type": "GROUNDING"
+      },
+      {
+       "Threshold": 0.8,
+       "Type": "RELEVANCE"
+      }
+     ]
+    },
+    "Description": "Comprehensive guardrail for text-to-SQL agent with security controls",
+    "Name": "text-to-sql-guardrail",
+    "TopicPolicyConfig": {
+     "TopicsConfig": [
+      {
+       "Definition": "Queries that perform bulk data operations, mass deletions, or could potentially cause data loss.",
+       "Examples": [
+        "DELETE FROM table WHERE 1=1",
+        "UPDATE table SET column=value",
+        "INSERT INTO table SELECT * FROM",
+        "BULK INSERT operations",
+        "Mass data export"
+       ],
+       "Name": "Bulk Data Operations",
+       "Type": "DENY"
+      },
+      {
+       "Definition": "SQL statements that perform write operations including INSERT, UPDATE, DELETE.",
+       "Examples": [
+        "INSERT INTO users VALUES (1, 'John')",
+        "UPDATE users SET name = 'Jane' WHERE id = 1",
+        "DELETE FROM users WHERE id = 1",
+        "DROP TABLE users"
+       ],
+       "Name": "SQL Write Operations Block",
+       "Type": "DENY"
+      }
+     ]
+    },
+    "WordPolicyConfig": {
+     "ManagedWordListsConfig": [
+      {
+       "Type": "PROFANITY"
+      }
+     ],
+     "WordsConfig": [
+      {
+       "Text": "DROP TABLE"
+      },
+      {
+       "Text": "DROP DATABASE"
+      },
+      {
+       "Text": "DROP SCHEMA"
+      },
+      {
+       "Text": "DROP VIEW"
+      },
+      {
+       "Text": "ALTER TABLE"
+      },
+      {
+       "Text": "ALTER DATABASE"
+      },
+      {
+       "Text": "ALTER SCHEMA"
+      },
+      {
+       "Text": "CREATE USER"
+      },
+      {
+       "Text": "DROP USER"
+      },
+      {
+       "Text": "ALTER USER"
+      },
+      {
+       "Text": "DELETE FROM"
+      },
+      {
+       "Text": "TRUNCATE TABLE"
+      },
+      {
+       "Text": "TRUNCATE"
+      },
+      {
+       "Text": "UPDATE SET"
+      },
+      {
+       "Text": "INSERT INTO SELECT"
+      },
+      {
+       "Text": "GRANT ALL"
+      },
+      {
+       "Text": "GRANT PRIVILEGES"
+      },
+      {
+       "Text": "REVOKE"
+      },
+      {
+       "Text": "GRANT SELECT"
+      },
+      {
+       "Text": "GRANT INSERT"
+      },
+      {
+       "Text": "GRANT UPDATE"
+      },
+      {
+       "Text": "GRANT DELETE"
+      },
+      {
+       "Text": "xp_cmdshell"
+      },
+      {
+       "Text": "sp_configure"
+      },
+      {
+       "Text": "OPENROWSET"
+      },
+      {
+       "Text": "OPENDATASOURCE"
+      },
+      {
+       "Text": "BULK INSERT"
+      },
+      {
+       "Text": "LOAD_FILE"
+      },
+      {
+       "Text": "INTO OUTFILE"
+      },
+      {
+       "Text": "INTO DUMPFILE"
+      },
+      {
+       "Text": "UNION SELECT"
+      },
+      {
+       "Text": "UNION ALL SELECT"
+      },
+      {
+       "Text": "SHUTDOWN"
+      },
+      {
+       "Text": "RESTART"
+      },
+      {
+       "Text": "KILL"
+      },
+      {
+       "Text": "SHOW PROCESSLIST"
+      },
+      {
+       "Text": "FLUSH PRIVILEGES"
+      },
+      {
+       "Text": "RESET MASTER"
+      },
+      {
+       "Text": "RESET SLAVE"
+      }
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "TextToSqlGuardrailStack/TextToSqlGuardrail"
+   }
+  },
+  "TextToSqlGuardrailVersion": {
+   "Type": "AWS::Bedrock::GuardrailVersion",
+   "Properties": {
+    "Description": "Production version of text-to-SQL guardrail",
+    "GuardrailIdentifier": {
+     "Fn::GetAtt": [
+      "TextToSqlGuardrail",
+      "GuardrailId"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "TextToSqlGuardrailStack/TextToSqlGuardrailVersion"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zPSM7Q00TNQTCwv1k1OydbNyUzSqw4uSUzO1kksL45PSk0pyk/O1qt2TstzL00sSilKzMzRQeaEpRYVZ+bn1dbqBFSWZOTn6RvrGRrqWSpmFWdm6haV5pVk5qbqBUFoAMrsvDVtAAAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "TextToSqlGuardrailStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "ExportsOutputFnGetAttTextToSqlGuardrailGuardrailId229E8C8B": {
+   "Value": {
+    "Fn::GetAtt": [
+     "TextToSqlGuardrail",
+     "GuardrailId"
+    ]
+   },
+   "Export": {
+    "Name": "TextToSqlGuardrailStack:ExportsOutputFnGetAttTextToSqlGuardrailGuardrailId229E8C8B"
+   }
+  },
+  "ExportsOutputFnGetAttTextToSqlGuardrailVersionVersion7C5A061F": {
+   "Value": {
+    "Fn::GetAtt": [
+     "TextToSqlGuardrailVersion",
+     "Version"
+    ]
+   },
+   "Export": {
+    "Name": "TextToSqlGuardrailStack:ExportsOutputFnGetAttTextToSqlGuardrailVersionVersion7C5A061F"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

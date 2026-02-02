@@ -8,8 +8,8 @@ from aws_cdk import (
     aws_iam as iam,
     aws_s3 as s3,
     aws_s3_deployment as s3deploy,
-    #aws_apigateway as apigateway,
     aws_apigatewayv2 as apigwv2,
+    aws_bedrock as bedrock,
     RemovalPolicy,
     Duration,
     Size,
@@ -21,11 +21,8 @@ from cdk_nag import ( AwsSolutionsChecks, NagSuppressions )
 
 class ConverseText2SqlAgentStack(Stack):
 
-    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, guardrail: bedrock.CfnGuardrail, guardrailVersion: bedrock.CfnGuardrailVersion, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
-
-        # Use the default VPC
-        #vpc = ec2.Vpc.from_lookup(self, "DefaultVPC", is_default=True)
 
         vpc = ec2.Vpc(
             self, "MyVpc",
@@ -187,7 +184,7 @@ class ConverseText2SqlAgentStack(Stack):
         
         lambda_role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("service-role/AWSLambdaVPCAccessExecutionRole"))
         lambda_role.add_to_policy(iam.PolicyStatement(
-            actions=["bedrock:InvokeModel"],
+            actions=["bedrock:InvokeModel", "bedrock:ApplyGuardrail"],
             resources=[f"*"]
         ))
 
@@ -229,7 +226,9 @@ class ConverseText2SqlAgentStack(Stack):
             environment={
                 "DynamoDbMemoryTable": dynamodb_table.table_name,
                 "BedrockModelId": "us.anthropic.claude-sonnet-4-20250514-v1:0",
-                "CONNECTIONS_TABLE": connections_table.table_name
+                "CONNECTIONS_TABLE": connections_table.table_name,
+                "BEDROCK_GUARDRAIL_ID": guardrail.attr_guardrail_id,
+                "BEDROCK_GUARDRAIL_VERSION": guardrailVersion.attr_version
             }
         )
 
@@ -341,3 +340,5 @@ class ConverseText2SqlAgentStack(Stack):
         )
         
         lambda_function.add_to_role_policy(api_gateway_management_policy)
+
+

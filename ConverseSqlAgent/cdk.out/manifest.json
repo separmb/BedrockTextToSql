@@ -1,6 +1,84 @@
 {
   "version": "41.0.0",
   "artifacts": {
+    "TextToSqlGuardrailStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "TextToSqlGuardrailStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "TextToSqlGuardrailStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://589528729908/us-east-1",
+      "properties": {
+        "templateFile": "TextToSqlGuardrailStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-deploy-role-589528729908-us-east-1",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-cfn-exec-role-589528729908-us-east-1",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-589528729908-us-east-1/202896f7ff5f36cffdf49eff69f873e14ae49e39caadd827621dcd051da62e95.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "TextToSqlGuardrailStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-lookup-role-589528729908-us-east-1",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "TextToSqlGuardrailStack.assets"
+      ],
+      "metadata": {
+        "/TextToSqlGuardrailStack/TextToSqlGuardrail": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TextToSqlGuardrail"
+          }
+        ],
+        "/TextToSqlGuardrailStack/TextToSqlGuardrailVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TextToSqlGuardrailVersion"
+          }
+        ],
+        "/TextToSqlGuardrailStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/TextToSqlGuardrailStack/Exports/Output{\"Fn::GetAtt\":[\"TextToSqlGuardrail\",\"GuardrailId\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttTextToSqlGuardrailGuardrailId229E8C8B"
+          }
+        ],
+        "/TextToSqlGuardrailStack/Exports/Output{\"Fn::GetAtt\":[\"TextToSqlGuardrailVersion\",\"Version\"]}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ExportsOutputFnGetAttTextToSqlGuardrailVersionVersion7C5A061F"
+          }
+        ],
+        "/TextToSqlGuardrailStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/TextToSqlGuardrailStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "TextToSqlGuardrailStack"
+    },
     "ConverseText2SqlAgentStack.assets": {
       "type": "cdk:asset-manifest",
       "properties": {
@@ -18,7 +96,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-deploy-role-589528729908-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-cfn-exec-role-589528729908-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-589528729908-us-east-1/eb96f9871b810bd5b6e8f01629c1946747412878f0dd4a821f5ca1716f7c0d82.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-589528729908-us-east-1/1f93ee3359e75f65623b926e1ab5dc6e0bacc0ee3ebf12ebfe72559157b1cfaf.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -31,6 +109,7 @@
         }
       },
       "dependencies": [
+        "TextToSqlGuardrailStack",
         "ConverseText2SqlAgentStack.assets"
       ],
       "metadata": {
