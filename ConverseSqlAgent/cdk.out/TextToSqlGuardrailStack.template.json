@@ -6,76 +6,8 @@
    "Properties": {
     "BlockedInputMessaging": "I cannot process this request as it may contain inappropriate content or unsafe SQL operations.",
     "BlockedOutputsMessaging": "I cannot generate this SQL query as it may contain unsafe operations or inappropriate content.",
-    "ContentPolicyConfig": {
-     "FiltersConfig": [
-      {
-       "InputStrength": "HIGH",
-       "OutputStrength": "NONE",
-       "Type": "PROMPT_ATTACK"
-      },
-      {
-       "InputStrength": "MEDIUM",
-       "OutputStrength": "MEDIUM",
-       "Type": "HATE"
-      },
-      {
-       "InputStrength": "MEDIUM",
-       "OutputStrength": "MEDIUM",
-       "Type": "INSULTS"
-      },
-      {
-       "InputStrength": "MEDIUM",
-       "OutputStrength": "MEDIUM",
-       "Type": "SEXUAL"
-      },
-      {
-       "InputStrength": "MEDIUM",
-       "OutputStrength": "MEDIUM",
-       "Type": "VIOLENCE"
-      }
-     ]
-    },
-    "ContextualGroundingPolicyConfig": {
-     "FiltersConfig": [
-      {
-       "Threshold": 0.8,
-       "Type": "GROUNDING"
-      },
-      {
-       "Threshold": 0.8,
-       "Type": "RELEVANCE"
-      }
-     ]
-    },
-    "Description": "Comprehensive guardrail for text-to-SQL agent with security controls",
+    "Description": "Basic guardrail checking for blocked sql key works",
     "Name": "text-to-sql-guardrail",
-    "TopicPolicyConfig": {
-     "TopicsConfig": [
-      {
-       "Definition": "Queries that perform bulk data operations, mass deletions, or could potentially cause data loss.",
-       "Examples": [
-        "DELETE FROM table WHERE 1=1",
-        "UPDATE table SET column=value",
-        "INSERT INTO table SELECT * FROM",
-        "BULK INSERT operations",
-        "Mass data export"
-       ],
-       "Name": "Bulk Data Operations",
-       "Type": "DENY"
-      },
-      {
-       "Definition": "SQL statements that perform write operations including INSERT, UPDATE, DELETE.",
-       "Examples": [
-        "INSERT INTO users VALUES (1, 'John')",
-        "UPDATE users SET name = 'Jane' WHERE id = 1",
-        "DELETE FROM users WHERE id = 1",
-        "DROP TABLE users"
-       ],
-       "Name": "SQL Write Operations Block",
-       "Type": "DENY"
-      }
-     ]
-    },
     "WordPolicyConfig": {
      "ManagedWordListsConfig": [
       {

@@ -1,6 +1,7 @@
 from aws_cdk import (
     Stack,
-    aws_bedrock as bedrock
+    aws_bedrock as bedrock,
+    custom_resources as cr,
 )
 from constructs import Construct
 from typing import List, Dict, Any
@@ -16,55 +17,56 @@ class TextToSqlGuardrailStack(Stack):
         # Create a version of the guardrail
         self.guardrail_version = self._create_guardrail_version()
 
+        
     def _create_text_to_sql_guardrail(self) -> bedrock.CfnGuardrail:
         """Create the main guardrail with all necessary filters for text-to-SQL"""
         
         return bedrock.CfnGuardrail(
             self, "TextToSqlGuardrail",
             name="text-to-sql-guardrail",
-            description="Comprehensive guardrail for text-to-SQL agent with security controls",
+            description="Basic guardrail checking for blocked sql key works",
             
             # Blocked messages
             blocked_input_messaging="I cannot process this request as it may contain inappropriate content or unsafe SQL operations.",
             blocked_outputs_messaging="I cannot generate this SQL query as it may contain unsafe operations or inappropriate content.",
             
             # Content Policy Configuration - Enhanced security for SQL context
-            content_policy_config=bedrock.CfnGuardrail.ContentPolicyConfigProperty(
-                filters_config=[
-                    # Block prompt attacks (jailbreaks, prompt injection)
-                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                        type="PROMPT_ATTACK",
-                        input_strength="HIGH",
-                        output_strength="NONE"
-                    ),
-                    # Medium filtering for other harmful content
-                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                        type="HATE",
-                        input_strength="MEDIUM",
-                        output_strength="MEDIUM"
-                    ),
-                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                        type="INSULTS",
-                        input_strength="MEDIUM",
-                        output_strength="MEDIUM"
-                    ),
-                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                        type="SEXUAL",
-                        input_strength="MEDIUM",
-                        output_strength="MEDIUM"
-                    ),
-                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                        type="VIOLENCE",
-                        input_strength="MEDIUM",
-                        output_strength="MEDIUM"
-                    )
-                ],
-            ),
+            # content_policy_config=bedrock.CfnGuardrail.ContentPolicyConfigProperty(
+            #     filters_config=[
+            #         # Block prompt attacks (jailbreaks, prompt injection)
+            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
+            #             type="PROMPT_ATTACK",
+            #             input_strength="HIGH",
+            #             output_strength="NONE"
+            #         ),
+            #         # Medium filtering for other harmful content
+            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
+            #             type="HATE",
+            #             input_strength="MEDIUM",
+            #             output_strength="MEDIUM"
+            #         ),
+            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
+            #             type="INSULTS",
+            #             input_strength="MEDIUM",
+            #             output_strength="MEDIUM"
+            #         ),
+            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
+            #             type="SEXUAL",
+            #             input_strength="MEDIUM",
+            #             output_strength="MEDIUM"
+            #         ),
+            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
+            #             type="VIOLENCE",
+            #             input_strength="MEDIUM",
+            #             output_strength="MEDIUM"
+            #         )
+            #     ],
+            # ),
             
             # Topic Policy Configuration - SQL-specific denied topics
-            topic_policy_config=bedrock.CfnGuardrail.TopicPolicyConfigProperty(
-                topics_config=self._get_denied_topics_config(),
-            ),
+            # topic_policy_config=bedrock.CfnGuardrail.TopicPolicyConfigProperty(
+            #     topics_config=self._get_denied_topics_config(),
+            # ),
             
             # Word Policy Configuration - Block dangerous SQL keywords
             word_policy_config=bedrock.CfnGuardrail.WordPolicyConfigProperty(
@@ -83,18 +85,18 @@ class TextToSqlGuardrailStack(Stack):
             # ),
             
             # Contextual Grounding Policy - Prevent SQL hallucinations
-            contextual_grounding_policy_config=bedrock.CfnGuardrail.ContextualGroundingPolicyConfigProperty(
-                filters_config=[
-                    bedrock.CfnGuardrail.ContextualGroundingFilterConfigProperty(
-                        type="GROUNDING",
-                        threshold=0.8  # High threshold for SQL accuracy
-                    ),
-                    bedrock.CfnGuardrail.ContextualGroundingFilterConfigProperty(
-                        type="RELEVANCE",
-                        threshold=0.8  # Ensure SQL is relevant to query
-                    )
-                ]
-            ),
+            # contextual_grounding_policy_config=bedrock.CfnGuardrail.ContextualGroundingPolicyConfigProperty(
+            #     filters_config=[
+            #         bedrock.CfnGuardrail.ContextualGroundingFilterConfigProperty(
+            #             type="GROUNDING",
+            #             threshold=0.8  # High threshold for SQL accuracy
+            #         ),
+            #         bedrock.CfnGuardrail.ContextualGroundingFilterConfigProperty(
+            #             type="RELEVANCE",
+            #             threshold=0.8  # Ensure SQL is relevant to query
+            #         )
+            #     ]
+            # ),
         )
 
     def _get_denied_topics_config(self) -> List[bedrock.CfnGuardrail.TopicConfigProperty]:
@@ -228,12 +230,12 @@ class TextToSqlGuardrailStack(Stack):
     #     ]
 
     def _create_guardrail_version(self) -> bedrock.CfnGuardrailVersion:
-        """Create a version of the guardrail for production use"""
-        
         return bedrock.CfnGuardrailVersion(
             self, "TextToSqlGuardrailVersion",
             guardrail_identifier=self.text_to_sql_guardrail.attr_guardrail_id,
             description="Production version of text-to-SQL guardrail"
         )
+
+
 
 

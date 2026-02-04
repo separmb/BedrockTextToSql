@@ -112,11 +112,11 @@ class BaseAgent():
                             "maxTokens": max_tokens,
                             "temperature": temperature
                         },
-                        # guardrailConfig={
-                        #     "guardrailIdentifier": self.guardrail_id,
-                        #     "guardrailVersion": self.guardrail_version,
-                        #     "trace": "enabled"
-                        # },
+                        guardrailConfig={
+                            "guardrailIdentifier": self.guardrail_id,
+                            "guardrailVersion": self.guardrail_version
+                            "trace": "enabled"
+                        },
                     )
                     
                     break

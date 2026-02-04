@@ -1106,7 +1106,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
-     "S3Key": "a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd.zip"
+     "S3Key": "9532174a95bbd5c83bcfcda1647ee65cc450e67598c5f26040188823a92199d5.zip"
     },
     "Environment": {
      "Variables": {
@@ -1173,7 +1173,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ConverseText2SqlAgentStack/SQLAgentFunction/Resource",
-    "aws:asset:path": "asset.a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd",
+    "aws:asset:path": "asset.9532174a95bbd5c83bcfcda1647ee65cc450e67598c5f26040188823a92199d5",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -1264,7 +1264,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
-     "S3Key": "a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd.zip"
+     "S3Key": "9532174a95bbd5c83bcfcda1647ee65cc450e67598c5f26040188823a92199d5.zip"
     },
     "Environment": {
      "Variables": {
@@ -1288,7 +1288,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ConverseText2SqlAgentStack/ConnectHandler/Resource",
-    "aws:asset:path": "asset.a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd",
+    "aws:asset:path": "asset.9532174a95bbd5c83bcfcda1647ee65cc450e67598c5f26040188823a92199d5",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }
@@ -1379,7 +1379,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-589528729908-us-east-1",
-     "S3Key": "a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd.zip"
+     "S3Key": "9532174a95bbd5c83bcfcda1647ee65cc450e67598c5f26040188823a92199d5.zip"
     },
     "Environment": {
      "Variables": {
@@ -1403,7 +1403,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "ConverseText2SqlAgentStack/DisconnectHandler/Resource",
-    "aws:asset:path": "asset.a01711605ad3d988fe2561afc90cdd9feab1df13611e4df6a7bfe44c768360bd",
+    "aws:asset:path": "asset.9532174a95bbd5c83bcfcda1647ee65cc450e67598c5f26040188823a92199d5",
     "aws:asset:is-bundled": false,
     "aws:asset:property": "Code"
    }

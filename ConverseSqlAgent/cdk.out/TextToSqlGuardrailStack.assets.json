@@ -1,7 +1,7 @@
 {
   "version": "41.0.0",
   "files": {
-    "202896f7ff5f36cffdf49eff69f873e14ae49e39caadd827621dcd051da62e95": {
+    "25b419d5d9dce93def92a78c404fb932905f2e306b9aedee8da3b7340f00ce9d": {
       "displayName": "TextToSqlGuardrailStack Template",
       "source": {
         "path": "TextToSqlGuardrailStack.template.json",
@@ -10,7 +10,7 @@
       "destinations": {
         "589528729908-us-east-1": {
           "bucketName": "cdk-hnb659fds-assets-589528729908-us-east-1",
-          "objectKey": "202896f7ff5f36cffdf49eff69f873e14ae49e39caadd827621dcd051da62e95.json",
+          "objectKey": "25b419d5d9dce93def92a78c404fb932905f2e306b9aedee8da3b7340f00ce9d.json",
           "region": "us-east-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::589528729908:role/cdk-hnb659fds-file-publishing-role-589528729908-us-east-1"
         }
