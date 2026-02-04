@@ -34,16 +34,16 @@ class TextToSqlGuardrailStack(Stack):
             content_policy_config=bedrock.CfnGuardrail.ContentPolicyConfigProperty(
                 filters_config=[
                     # Block prompt attacks (jailbreaks, prompt injection)
-                    # bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                    #     type="PROMPT_ATTACK",
-                    #     input_strength="NONE",
-                    #     output_strength="NONE"
-                    # ),
-                    # bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                    #     type="HATE",
-                    #     input_strength="MEDIUM",
-                    #     output_strength="MEDIUM"
-                    # ),
+                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
+                        type="PROMPT_ATTACK",
+                        input_strength="NONE",
+                        output_strength="NONE"
+                    ),
+                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
+                        type="HATE",
+                        input_strength="MEDIUM",
+                        output_strength="MEDIUM"
+                    ),
                     bedrock.CfnGuardrail.ContentFilterConfigProperty(
                         type="INSULTS",
                         input_strength="LOW",

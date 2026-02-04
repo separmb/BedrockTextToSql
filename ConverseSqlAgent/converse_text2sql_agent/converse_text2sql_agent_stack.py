@@ -228,7 +228,7 @@ class ConverseText2SqlAgentStack(Stack):
                 "BedrockModelId": "us.anthropic.claude-sonnet-4-20250514-v1:0",
                 "CONNECTIONS_TABLE": connections_table.table_name,
                 "BEDROCK_GUARDRAIL_ID": "l2m1ls0o9cth",
-                "BEDROCK_GUARDRAIL_VERSION": "20"
+                "BEDROCK_GUARDRAIL_VERSION": "22"
             }
         )
 
@@ -262,40 +262,6 @@ class ConverseText2SqlAgentStack(Stack):
         connections_table.grant_read_write_data(connect_handler)
         connections_table.grant_read_write_data(disconnect_handler)
         connections_table.grant_read_write_data(lambda_function)
-
-        # Create public S3 bucket for the angular app and upload file to bucket
-        bucket = s3.Bucket(
-            self, "Text2SqlAngularBucket",
-            bucket_name=f"text2sql-angular-app-{self.account}-{self.region}",  # Ensure unique name
-            website_index_document="index.html",
-            website_error_document="index.html",  # For Angular routing
-            public_read_access=False,
-            removal_policy=RemovalPolicy.DESTROY,  # Be careful with this in production
-            auto_delete_objects=True  # This will delete objects when stack is destroyed
-        )
-
-        # Create a bucket policy statement for public read access
-        # policy_statement = iam.PolicyStatement(
-        #     effect=iam.Effect.ALLOW,
-        #     principals=[iam.AnyPrincipal()],  # Example: allow all (use cautiously)
-        #     actions=["s3:GetObject"],
-        #     resources=[f"{bucket.bucket_arn}/*"]
-        # )
-
-        # Attach the policy to the bucket
-        # bucket.add_to_resource_policy(policy_statement)
-
-        # Deploy files from local directory to S3
-        deployment = s3deploy.BucketDeployment(
-            self, "AngularAppDeployment",
-            sources=[
-                s3deploy.Source.asset("./angular/ng-text-to-sql.zip")  
-            ],
-            destination_bucket=bucket,
-            # Invalidate CloudFront cache if using CloudFront
-            # distribution=distribution,
-            # distribution_paths=["/*"]
-        )
 
         # Create WebSocket API
         web_socket_api = apigwv2.WebSocketApi(
