@@ -18,8 +18,7 @@ bedrockGuardRails = TextToSqlGuardrailStack(
 )
 
 # then set up rest of stack
-main_stack = ConverseText2SqlAgentStack(app, "ConverseText2SqlAgentStack", guardrail=bedrockGuardRails.text_to_sql_guardrail, 
-    guardrailVersion=bedrockGuardRails.guardrail_version,
+main_stack = ConverseText2SqlAgentStack(app, "ConverseText2SqlAgentStack",
     # If you don't specify 'env', this stack will be environment-agnostic.
     # Account/Region-dependent features and context lookups will not work,
     # but a single synthesized template can be deployed anywhere.
@@ -36,7 +35,5 @@ main_stack = ConverseText2SqlAgentStack(app, "ConverseText2SqlAgentStack", guard
 
     # For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html
 )
-
-main_stack.add_dependency(bedrockGuardRails)
 
 app.synth()

@@ -21,7 +21,7 @@ from cdk_nag import ( AwsSolutionsChecks, NagSuppressions )
 
 class ConverseText2SqlAgentStack(Stack):
 
-    def __init__(self, scope: Construct, construct_id: str, guardrail: bedrock.CfnGuardrail, guardrailVersion: bedrock.CfnGuardrailVersion, **kwargs) -> None:
+    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
         vpc = ec2.Vpc(
@@ -227,8 +227,8 @@ class ConverseText2SqlAgentStack(Stack):
                 "DynamoDbMemoryTable": dynamodb_table.table_name,
                 "BedrockModelId": "us.anthropic.claude-sonnet-4-20250514-v1:0",
                 "CONNECTIONS_TABLE": connections_table.table_name,
-                "BEDROCK_GUARDRAIL_ID": guardrail.attr_guardrail_id,
-                "BEDROCK_GUARDRAIL_VERSION": guardrailVersion.attr_version
+                "BEDROCK_GUARDRAIL_ID": "l2m1ls0o9cth",
+                "BEDROCK_GUARDRAIL_VERSION": "20"
             }
         )
 

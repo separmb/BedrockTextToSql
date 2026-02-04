@@ -31,42 +31,41 @@ class TextToSqlGuardrailStack(Stack):
             blocked_outputs_messaging="I cannot generate this SQL query as it may contain unsafe operations or inappropriate content.",
             
             # Content Policy Configuration - Enhanced security for SQL context
-            # content_policy_config=bedrock.CfnGuardrail.ContentPolicyConfigProperty(
-            #     filters_config=[
-            #         # Block prompt attacks (jailbreaks, prompt injection)
-            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
-            #             type="PROMPT_ATTACK",
-            #             input_strength="HIGH",
-            #             output_strength="NONE"
-            #         ),
-            #         # Medium filtering for other harmful content
-            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
-            #             type="HATE",
-            #             input_strength="MEDIUM",
-            #             output_strength="MEDIUM"
-            #         ),
-            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
-            #             type="INSULTS",
-            #             input_strength="MEDIUM",
-            #             output_strength="MEDIUM"
-            #         ),
-            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
-            #             type="SEXUAL",
-            #             input_strength="MEDIUM",
-            #             output_strength="MEDIUM"
-            #         ),
-            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
-            #             type="VIOLENCE",
-            #             input_strength="MEDIUM",
-            #             output_strength="MEDIUM"
-            #         )
-            #     ],
-            # ),
+            content_policy_config=bedrock.CfnGuardrail.ContentPolicyConfigProperty(
+                filters_config=[
+                    # Block prompt attacks (jailbreaks, prompt injection)
+                    # bedrock.CfnGuardrail.ContentFilterConfigProperty(
+                    #     type="PROMPT_ATTACK",
+                    #     input_strength="NONE",
+                    #     output_strength="NONE"
+                    # ),
+                    # bedrock.CfnGuardrail.ContentFilterConfigProperty(
+                    #     type="HATE",
+                    #     input_strength="MEDIUM",
+                    #     output_strength="MEDIUM"
+                    # ),
+                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
+                        type="INSULTS",
+                        input_strength="LOW",
+                        output_strength="LOW"
+                    ),
+                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
+                        type="SEXUAL",
+                        input_strength="MEDIUM",
+                        output_strength="MEDIUM"
+                    ),
+                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
+                        type="VIOLENCE",
+                        input_strength="MEDIUM",
+                        output_strength="MEDIUM"
+                    )
+                ],
+            ),
             
             # Topic Policy Configuration - SQL-specific denied topics
-            # topic_policy_config=bedrock.CfnGuardrail.TopicPolicyConfigProperty(
-            #     topics_config=self._get_denied_topics_config(),
-            # ),
+            topic_policy_config=bedrock.CfnGuardrail.TopicPolicyConfigProperty(
+                topics_config=self._get_denied_topics_config(),
+            ),
             
             # Word Policy Configuration - Block dangerous SQL keywords
             word_policy_config=bedrock.CfnGuardrail.WordPolicyConfigProperty(
@@ -77,26 +76,25 @@ class TextToSqlGuardrailStack(Stack):
                     )
                 ]
             ),
-            
-            # Sensitive Information Policy - Protect PII and credentials
-            # sensitive_information_policy_config=bedrock.CfnGuardrail.SensitiveInformationPolicyConfigProperty(
-            #     pii_entities_config=self._get_pii_entities_config(),
-            #     regexes_config=self._get_regex_filters_config()
-            # ),
+
+            # Sensitive Information Policy - Protect against SQL injection
+            sensitive_information_policy_config=bedrock.CfnGuardrail.SensitiveInformationPolicyConfigProperty(
+                regexes_config=self._get_regex_filters_config()
+            ),
             
             # Contextual Grounding Policy - Prevent SQL hallucinations
-            # contextual_grounding_policy_config=bedrock.CfnGuardrail.ContextualGroundingPolicyConfigProperty(
-            #     filters_config=[
-            #         bedrock.CfnGuardrail.ContextualGroundingFilterConfigProperty(
-            #             type="GROUNDING",
-            #             threshold=0.8  # High threshold for SQL accuracy
-            #         ),
-            #         bedrock.CfnGuardrail.ContextualGroundingFilterConfigProperty(
-            #             type="RELEVANCE",
-            #             threshold=0.8  # Ensure SQL is relevant to query
-            #         )
-            #     ]
-            # ),
+            contextual_grounding_policy_config=bedrock.CfnGuardrail.ContextualGroundingPolicyConfigProperty(
+                filters_config=[
+                    bedrock.CfnGuardrail.ContextualGroundingFilterConfigProperty(
+                        type="GROUNDING",
+                        threshold=0.8  # High threshold for SQL accuracy
+                    ),
+                    bedrock.CfnGuardrail.ContextualGroundingFilterConfigProperty(
+                        type="RELEVANCE",
+                        threshold=0.8  # Ensure SQL is relevant to query
+                    )
+                ]
+            ),
         )
 
     def _get_denied_topics_config(self) -> List[bedrock.CfnGuardrail.TopicConfigProperty]:
@@ -125,6 +123,20 @@ class TextToSqlGuardrailStack(Stack):
                     "UPDATE users SET name = 'Jane' WHERE id = 1",
                     "DELETE FROM users WHERE id = 1",
                     "DROP TABLE users",
+                ],
+                type="DENY",
+            ),
+
+             # sql injections
+            bedrock.CfnGuardrail.TopicConfigProperty(
+                name="SQL Injection Attacks",
+                definition="Prevent SQL injection attempts and malicious database queries.",
+                examples=[
+                    "'; DROP TABLE users; --",
+                    "1' OR '1'='1",
+                    "UNION SELECT * FROM passwords",
+                    "'; INSERT INTO admin VALUES ('hacker', 'password'); --",
+                    "1' AND (SELECT COUNT(*) FROM information_schema.tables) > 0 --"
                 ],
                 type="DENY",
             ),
@@ -165,70 +177,16 @@ class TextToSqlGuardrailStack(Stack):
             for keyword in dangerous_sql_keywords
         ]
 
-    def _get_pii_entities_config(self) -> List[bedrock.CfnGuardrail.PiiEntityConfigProperty]:
-        """Configure PII entity detection for SQL context"""
-        
-        pii_entities = [
-            "ADDRESS", "AGE", "AWS_ACCESS_KEY",
-            "CA_HEALTH_NUMBER", "CA_SOCIAL_INSURANCE_NUMBER",
-            "CREDIT_DEBIT_CARD_CVV", "CREDIT_DEBIT_CARD_EXPIRY",
-            "CREDIT_DEBIT_CARD_NUMBER", "DRIVER_ID", "EMAIL", "INTERNATIONAL_BANK_ACCOUNT_NUMBER",
-            "IP_ADDRESS", "LICENSE_PLATE", "MAC_ADDRESS",
-            "NAME", "PASSWORD", "PHONE", "PIN",
-            "SWIFT_CODE", "UK_NATIONAL_HEALTH_SERVICE_NUMBER",
-            "UK_NATIONAL_INSURANCE_NUMBER", "UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER",
-            "URL", "USERNAME", "US_BANK_ACCOUNT_NUMBER",
-            "US_BANK_ROUTING_NUMBER", "US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER",
-            "US_PASSPORT_NUMBER", "US_SOCIAL_SECURITY_NUMBER",
-            "VEHICLE_IDENTIFICATION_NUMBER"
-        ]
-        
+    def _get_regex_filters_config(self) -> List[bedrock.CfnGuardrail.RegexConfigProperty]:       
         return [
-            bedrock.CfnGuardrail.PiiEntityConfigProperty(
-                type=entity,
-                action="BLOCK"  # Block rather than anonymize for SQL context
-            )
-            for entity in pii_entities
+            # SQL injection patterns
+            bedrock.CfnGuardrail.RegexConfigProperty(
+                name="SQL Injection Patterns",
+                description="Common SQL injection attack patterns",
+                pattern="(?i)(\\bUNION\\b.*\\bSELECT\\b|\\bOR\\b.*\\b1\\s*=\\s*1\\b|\\bAND\\b.*\\b1\\s*=\\s*1\\b|';.*--|\\bDROP\\b.*\\bTABLE\\b|\\bINSERT\\b.*\\bINTO\\b.*\\bVALUES\\b|\\bUPDATE\\b.*\\bSET\\b|\\bDELETE\\b.*\\bFROM\\b)",
+                action="BLOCK"
+            ),
         ]
-
-    # def _get_regex_filters_config(self) -> List[bedrock.CfnGuardrail.RegexConfigProperty]:
-    #     """Configure regex filters for SQL-specific patterns"""
-        
-    #     return [
-            
-    #         # SQL injection patterns
-    #         bedrock.CfnGuardrail.RegexConfigProperty(
-    #             name="SQL Injection Patterns",
-    #             description="Common SQL injection attack patterns",
-    #             pattern=r"(\bOR\b\s+\d+\s*=\s*\d+|\bUNION\b\s+\bSELECT\b|;\s*--|\bDROP\b\s+\bTABLE\b)",
-    #             action="BLOCK"
-    #         ),
-            
-    #         # API Keys and Tokens
-    #         bedrock.CfnGuardrail.RegexConfigProperty(
-    #             name="API Keys",
-    #             description="Detect API keys and access tokens",
-    #             pattern=r"(api[_-]?key|access[_-]?token|secret[_-]?key)\s*[:=]\s*['\"]?[a-zA-Z0-9_-]{20,}['\"]?",
-    #             action="BLOCK"
-    #         ),
-            
-    #         # Password patterns
-    #         bedrock.CfnGuardrail.RegexConfigProperty(
-    #             name="Password Patterns",
-    #             description="Detect password assignments or references",
-    #             pattern=r"(password|pwd|pass)\s*[:=]\s*['\"][^'\"]+['\"]",
-    #             action="ANONYMIZE"
-    #         ),
-            
-    #         # Credit card numbers
-    #         bedrock.CfnGuardrail.RegexConfigProperty(
-    #             name="Credit Card Numbers",
-    #             description="Detect credit card number patterns",
-    #             pattern=r"\b(?:\d{4}[-\s]?){3}\d{4}\b",
-    #             action="BLOCK"
-    #         )
-    #     ]
-
     def _create_guardrail_version(self) -> bedrock.CfnGuardrailVersion:
         return bedrock.CfnGuardrailVersion(
             self, "TextToSqlGuardrailVersion",
