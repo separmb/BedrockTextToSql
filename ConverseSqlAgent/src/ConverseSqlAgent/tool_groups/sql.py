@@ -1,4 +1,5 @@
 import io
+import os
 import csv
 import json
 import boto3
@@ -8,12 +9,11 @@ import boto3
 import json
 from botocore.exceptions import ClientError
 
-def retrieve_database_url(secrets_manager_key, database_name=None):
+def retrieve_database_url(database_name=None):
     """
     Returns a URL for SQLAlchemy based on AWS Secrets Manager credentials.
 
-    Args:
-        secrets_manager_key (str): The AWS Secrets Manager key for the connection details.
+    Args:        
         database_name (str, optional): The name of the database to connect to. If specified,
             this will override the database name from secrets manager.
 
@@ -28,6 +28,8 @@ def retrieve_database_url(secrets_manager_key, database_name=None):
     """
     try:
         # Retrieve secrets from AWS Secrets Manager
+        # Get from environment variable (which contains the secret name)
+        secrets_manager_key = os.environ.get('SECRET_MANAGER_ID')
         secrets_manager = boto3.client('secretsmanager')
         try:
             secret_response = secrets_manager.get_secret_value(SecretId=secrets_manager_key)
@@ -80,12 +82,11 @@ def retrieve_database_url(secrets_manager_key, database_name=None):
     except boto3.exceptions.Boto3Error as e:
         raise ValueError(f"Error with AWS SDK: {str(e)}") from e
 
-def invoke_sql_query(self, secrets_manager_key, database_name, query):
+def invoke_sql_query(self, database_name, query):
     """
     Invokes a SQL query against a database.
 
     Args:
-        secrets_manager_key (str): The Secrets Manager Key to retrieve connection details.
         database_name (str): The name of the database to connect to.
         query (str): The SQL statement to execute.
 
@@ -93,7 +94,8 @@ def invoke_sql_query(self, secrets_manager_key, database_name, query):
         str: A CSV string of the SQL execution output.
     """
     try:
-        url = retrieve_database_url(secrets_manager_key, database_name)
+        secrets_manager_key = os.environ.get('SECRET_MANAGER_ID')
+        url = retrieve_database_url(database_name)
         engine = create_engine(url)
         with engine.connect() as connection:
             result = connection.execute(text(query))
@@ -107,19 +109,19 @@ def invoke_sql_query(self, secrets_manager_key, database_name, query):
         final_output = f"Invoking SQL query encountered an error: {e}"
     return final_output
 
-def get_database_schemas(self, secrets_manager_key, database_name):
+def get_database_schemas(self, database_name):
     """
     Retrieves a list of schemas in a database.
 
     Args:
-        secrets_manager_key (str): The Secrets Manager Key to retrieve connection details.
         database_name (str): The name of the database to connect to.
 
     Returns:
         str: A CSV string of the database schemas.
     """
     try:
-        url = retrieve_database_url(secrets_manager_key, database_name)
+        secrets_manager_key = os.environ.get('SECRET_MANAGER_ID')
+        url = retrieve_database_url(database_name)
         engine = create_engine(url)
         inspector = inspect(engine)
         schemas = inspector.get_schema_names()
@@ -134,12 +136,11 @@ def get_database_schemas(self, secrets_manager_key, database_name):
         final_output = f"Getting database schemas encountered an error: {e}"
     return final_output
 
-def get_schema_tables(self, secrets_manager_key, database_name, schema):
+def get_schema_tables(self, database_name, schema):
     """
     Retrieves a list of tables in a specific schema.
 
     Args:
-        secrets_manager_key (str): The Secrets Manager Key to retrieve connection details.
         database_name (str): The name of the database to connect to.
         schema (str): The name of the schema to get tables from.
 
@@ -147,7 +148,8 @@ def get_schema_tables(self, secrets_manager_key, database_name, schema):
         str: A CSV string of the tables in the specified schema.
     """
     try:
-        url = retrieve_database_url(secrets_manager_key, database_name)
+        secrets_manager_key = os.environ.get('SECRET_MANAGER_ID')
+        url = retrieve_database_url(database_name)
         engine = create_engine(url)
         inspector = inspect(engine)
         tables = inspector.get_table_names(schema=schema)
@@ -162,12 +164,11 @@ def get_schema_tables(self, secrets_manager_key, database_name, schema):
         final_output = f"Getting schema tables encountered an error: {e}"
     return final_output
 
-def get_table_columns(self, secrets_manager_key, database_name, schema, table):
+def get_table_columns(self, database_name, schema, table):
     """
     Retrieves a list of columns and their properties for a specific table in a schema.
 
     Args:
-        secrets_manager_key (str): The Secrets Manager Key to retrieve connection details.
         database_name (str): The name of the database to connect to.
         schema (str): The name of the schema containing the table.
         table (str): The name of the table to get columns from.
@@ -176,7 +177,8 @@ def get_table_columns(self, secrets_manager_key, database_name, schema, table):
         str: A CSV string of the columns in the specified table.
     """
     try:
-        url = retrieve_database_url(secrets_manager_key, database_name)
+        secrets_manager_key = os.environ.get('SECRET_MANAGER_ID')
+        url = retrieve_database_url(database_name)
         engine = create_engine(url)
         inspector = inspect(engine)
         columns = inspector.get_columns(table_name=table, schema=schema)
@@ -197,12 +199,11 @@ def get_table_columns(self, secrets_manager_key, database_name, schema, table):
         final_output = f"Getting table columns encountered an error: {e}"
     return final_output
 
-def get_foreign_keys(self, secrets_manager_key, database_name, schema=None):
+def get_foreign_keys(self, database_name, schema=None):
     """
     Retrieves foreign key relationships in a database.
 
     Args:
-        secrets_manager_key (str): The Secrets Manager Key to retrieve connection details.
         database_name (str): The name of the database to connect to.
         schema (str, optional): The name of the schema to get foreign keys from. If None, gets from all schemas.
 
@@ -210,7 +211,8 @@ def get_foreign_keys(self, secrets_manager_key, database_name, schema=None):
         str: A CSV string of the foreign key relationships.
     """
     try:
-        url = retrieve_database_url(secrets_manager_key, database_name)
+        secrets_manager_key = os.environ.get('SECRET_MANAGER_ID')
+        url = retrieve_database_url(database_name)
         engine = create_engine(url)
         inspector = inspect(engine)
 
@@ -251,10 +253,6 @@ GET_FOREIGN_KEYS_TOOLSPEC = {
             "json": {
                 "type": "object",
                 "properties": {
-                    "secrets_manager_key": {
-                        "type": "string",
-                        "description": "Enter the AWS Secrets Manager key that will be used for the database server connection"
-                    },
                     "database_name": {
                         "type": "string",
                         "description": "The name of the database to connect to in the server"
@@ -264,7 +262,7 @@ GET_FOREIGN_KEYS_TOOLSPEC = {
                         "description": "Optional. The name of the schema to get foreign keys from. If not provided, gets from all schemas."
                     }
                 },
-                "required": ["secrets_manager_key", "database_name"]
+                "required": ["database_name"]
             }
         }
     }
@@ -281,10 +279,6 @@ INVOKE_SQL_TOOLSPEC = {
             "json": {
                 "type": "object",
                 "properties": {
-                    "secrets_manager_key": {
-                        "type": "string",
-                        "description": "Enter the AWS Secrets Manager key that will be used for the database server connection"
-                    },
                     "database_name": {
                         "type": "string",
                         "description": "The name of the database to connect to in the server"
@@ -294,7 +288,7 @@ INVOKE_SQL_TOOLSPEC = {
                         "description": "This is a SQL query that is valid to the database"
                     }
                 },
-                "required": ["secrets_manager_key", "database_name", "query"]
+                "required": ["database_name", "query"]
             }
         }
     }
@@ -308,16 +302,12 @@ GET_DATABASE_SCHEMAS_TOOLSPEC = {
             "json": {
                 "type": "object",
                 "properties": {
-                    "secrets_manager_key": {
-                        "type": "string",
-                        "description": "Enter the AWS Secrets Manager key that will be used for the database server connection"
-                    },
                     "database_name": {
                         "type": "string",
                         "description": "The name of the database to connect to in the server"
                     }
                 },
-                "required": ["secrets_manager_key", "database_name"]
+                "required": ["database_name"]
             }
         }
     }
@@ -331,10 +321,6 @@ GET_SCHEMA_TABLES_TOOLSPEC = {
             "json": {
                 "type": "object",
                 "properties": {
-                    "secrets_manager_key": {
-                        "type": "string",
-                        "description": "Enter the AWS Secrets Manager key that will be used for the database server connection"
-                    },
                     "database_name": {
                         "type": "string",
                         "description": "The name of the database to connect to in the server"
@@ -344,7 +330,7 @@ GET_SCHEMA_TABLES_TOOLSPEC = {
                         "description": "This is the name of the schema to get tables from."
                     }
                 },
-                "required": ["secrets_manager_key", "database_name", "schema"]
+                "required": ["database_name", "schema"]
             }
         }
     }
@@ -358,10 +344,6 @@ GET_TABLE_COLUMNS_TOOLSPEC = {
             "json": {
                 "type": "object",
                 "properties": {
-                    "secrets_manager_key": {
-                        "type": "string",
-                        "description": "Enter the AWS Secrets Manager key that will be used for the database server connection"
-                    },
                     "database_name": {
                         "type": "string",
                         "description": "The name of the database to connect to in the server"
@@ -375,7 +357,7 @@ GET_TABLE_COLUMNS_TOOLSPEC = {
                         "description": "This is the name of the table to get columns from."
                     }
                 },
-                "required": ["secrets_manager_key", "database_name", "schema", "table"]
+                "required": ["database_name", "schema", "table"]
             }
         }
     }

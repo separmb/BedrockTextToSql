@@ -132,7 +132,9 @@ class ConverseText2SqlAgentStack(Stack):
         db_instance = rds.DatabaseInstance(
             self, "MyRDSInstance",
             instance_identifier="myrdsdatabase",
-            engine=rds.DatabaseInstanceEngine.MYSQL,
+            engine=rds.DatabaseInstanceEngine.mysql(
+                version=rds.MysqlEngineVersion.VER_8_0_41
+            ),
             instance_type=ec2.InstanceType.of(ec2.InstanceClass.BURSTABLE3, ec2.InstanceSize.MICRO),
             vpc=vpc,
             vpc_subnets=ec2.SubnetSelection(subnets=private_subnets),
@@ -228,7 +230,8 @@ class ConverseText2SqlAgentStack(Stack):
                 "BedrockModelId": "us.anthropic.claude-sonnet-4-20250514-v1:0",
                 "CONNECTIONS_TABLE": connections_table.table_name,
                 "BEDROCK_GUARDRAIL_ID": "l2m1ls0o9cth",
-                "BEDROCK_GUARDRAIL_VERSION": "22"
+                "BEDROCK_GUARDRAIL_VERSION": "22",
+                "SECRET_MANAGER_ID": db_secret.secret_name
             }
         )
 
