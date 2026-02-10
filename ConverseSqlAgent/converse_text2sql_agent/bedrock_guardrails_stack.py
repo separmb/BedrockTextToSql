@@ -30,37 +30,37 @@ class TextToSqlGuardrailStack(Stack):
             blocked_input_messaging="I cannot process this request as it may contain inappropriate content or unsafe SQL operations.",
             blocked_outputs_messaging="I cannot generate this SQL query as it may contain unsafe operations or inappropriate content.",
             
-            # Content Policy Configuration - Enhanced security for SQL context
-            content_policy_config=bedrock.CfnGuardrail.ContentPolicyConfigProperty(
-                filters_config=[
-                    # Block prompt attacks (jailbreaks, prompt injection)
-                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                        type="PROMPT_ATTACK",
-                        input_strength="NONE",
-                        output_strength="NONE"
-                    ),
-                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                        type="HATE",
-                        input_strength="MEDIUM",
-                        output_strength="MEDIUM"
-                    ),
-                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                        type="INSULTS",
-                        input_strength="LOW",
-                        output_strength="LOW"
-                    ),
-                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                        type="SEXUAL",
-                        input_strength="MEDIUM",
-                        output_strength="MEDIUM"
-                    ),
-                    bedrock.CfnGuardrail.ContentFilterConfigProperty(
-                        type="VIOLENCE",
-                        input_strength="MEDIUM",
-                        output_strength="MEDIUM"
-                    )
-                ],
-            ),
+            # # Content Policy Configuration - Enhanced security for SQL context
+            # content_policy_config=bedrock.CfnGuardrail.ContentPolicyConfigProperty(
+            #     filters_config=[
+            #         # Block prompt attacks (jailbreaks, prompt injection)
+            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
+            #             type="PROMPT_ATTACK",
+            #             input_strength="NONE",
+            #             output_strength="NONE"
+            #         ),
+            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
+            #             type="HATE",
+            #             input_strength="LOW",
+            #             output_strength="LOW"
+            #         ),
+            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
+            #             type="INSULTS",
+            #             input_strength="LOW",
+            #             output_strength="LOW"
+            #         ),
+            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
+            #             type="SEXUAL",
+            #             input_strength="LOW",
+            #             output_strength="LOW"
+            #         ),
+            #         bedrock.CfnGuardrail.ContentFilterConfigProperty(
+            #             type="VIOLENCE",
+            #             input_strength="LOW",
+            #             output_strength="LOW"
+            #         )
+            #     ],
+            # ),
             
             # Topic Policy Configuration - SQL-specific denied topics
             topic_policy_config=bedrock.CfnGuardrail.TopicPolicyConfigProperty(

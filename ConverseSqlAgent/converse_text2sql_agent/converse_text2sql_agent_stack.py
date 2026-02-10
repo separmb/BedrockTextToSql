@@ -230,7 +230,7 @@ class ConverseText2SqlAgentStack(Stack):
                 "BedrockModelId": "us.anthropic.claude-sonnet-4-20250514-v1:0",
                 "CONNECTIONS_TABLE": connections_table.table_name,
                 "BEDROCK_GUARDRAIL_ID": "l2m1ls0o9cth",
-                "BEDROCK_GUARDRAIL_VERSION": "22",
+                "BEDROCK_GUARDRAIL_VERSION": "24",
                 "SECRET_MANAGER_ID": db_secret.secret_name
             }
         )
@@ -275,7 +275,7 @@ class ConverseText2SqlAgentStack(Stack):
                 integration=WebSocketLambdaIntegration(
                     "ConnectIntegration", 
                     connect_handler
-                )
+                ),
             ),
             disconnect_route_options=apigwv2.WebSocketRouteOptions(
                 integration=WebSocketLambdaIntegration(
@@ -297,8 +297,9 @@ class ConverseText2SqlAgentStack(Stack):
             web_socket_api=web_socket_api,
             stage_name="dev",
             description="Development stage",
-            auto_deploy=True
+            auto_deploy=True,
         )
+
 
         # Grant API Gateway Management API permissions to Lambda functions
         # This allows Lambda to send messages back to connected clients
