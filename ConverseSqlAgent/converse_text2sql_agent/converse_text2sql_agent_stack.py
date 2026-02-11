@@ -15,6 +15,7 @@ from aws_cdk import (
     Size,
 )
 from aws_cdk.aws_apigatewayv2_integrations import WebSocketLambdaIntegration
+from aws_cdk.aws_apigatewayv2_authorizers import WebSocketIamAuthorizer
 from constructs import Construct
 
 from cdk_nag import ( AwsSolutionsChecks, NagSuppressions )
@@ -266,6 +267,9 @@ class ConverseText2SqlAgentStack(Stack):
         connections_table.grant_read_write_data(disconnect_handler)
         connections_table.grant_read_write_data(lambda_function)
 
+        # Create IAM authorizer for signed URIs
+        iam_authorizer = WebSocketIamAuthorizer()
+
         # Create WebSocket API
         web_socket_api = apigwv2.WebSocketApi(
             self, "MyWebSocketApi",
@@ -276,6 +280,7 @@ class ConverseText2SqlAgentStack(Stack):
                     "ConnectIntegration", 
                     connect_handler
                 ),
+                authorizer=iam_authorizer,
             ),
             disconnect_route_options=apigwv2.WebSocketRouteOptions(
                 integration=WebSocketLambdaIntegration(
@@ -298,6 +303,35 @@ class ConverseText2SqlAgentStack(Stack):
             stage_name="dev",
             description="Development stage",
             auto_deploy=True,
+        )
+
+        
+        # Create IAM role for WebSocket clients
+        source_role_arn = "arn:aws:iam::589528729908:role/aws-reserved/sso.amazonaws.com/AWSReservedSSO_AWSAdministratorAccess_15519a559d79b2a4"
+        websocket_client_role = iam.Role(
+            self, "WebSocketClientRole",
+            assumed_by=iam.ArnPrincipal(source_role_arn),  # Trust policy
+            description="Role for WebSocket API clients with signed URI access",
+            role_name="WebSocketSignedUriClientRole"
+        )
+
+                # Create the ARN for the WebSocket API execute permissions
+        websocket_arn = self.format_arn(
+            service="execute-api",
+            resource=web_socket_api.api_id,
+            resource_name="*"
+        )
+
+        # Grant execute permissions to the client role
+        websocket_client_role.add_to_policy(
+            iam.PolicyStatement(
+                effect=iam.Effect.ALLOW,
+                actions=[
+                    "execute-api:Invoke",
+                    "execute-api:ManageConnections"
+                ],
+                resources=[websocket_arn]
+            )
         )
 
 
